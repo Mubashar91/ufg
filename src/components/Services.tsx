@@ -5,39 +5,39 @@ import { useRef } from "react";
 const services = [
   {
     icon: Inbox,
-    title: "Inbox Management",
-    description: "Complete inbox organization, prioritization, and daily management to keep your email under control and stress-free",
-    benefit: "Zero inbox chaos"
+    title: "UGC Scripting & Hooks",
+    description: "High-converting scripts with proven hooks and CTAs tailored to your product and audience.",
+    benefit: "Scroll‑stopping openers"
   },
   {
     icon: Mail,
-    title: "Email Campaign Management",
-    description: "Design, schedule, and manage email marketing campaigns with personalized content and optimal timing",
-    benefit: "Higher engagement"
+    title: "Creator Casting",
+    description: "We source on-brand creators across niches, demographics, and speaking styles that fit your brief.",
+    benefit: "On-brand faces"
   },
   {
     icon: Send,
-    title: "Response & Follow-up",
-    description: "Professional email responses, follow-ups, and correspondence management to maintain timely communication",
-    benefit: "Never miss a reply"
+    title: "Shoot & Edit",
+    description: "End-to-end production: direction, lighting, audio, A‑roll/B‑roll capture, captions, and platform cuts.",
+    benefit: "Ready-to-post"
   },
   {
     icon: Filter,
-    title: "Email Filtering & Automation",
-    description: "Smart filters, rules, and automation to organize incoming emails and reduce manual sorting time",
-    benefit: "Save hours daily"
+    title: "Variations & Testing",
+    description: "Multiple hooks, angles, and lengths per concept so you can test and scale what performs.",
+    benefit: "Faster learnings"
   },
   {
     icon: BarChart3,
-    title: "Analytics & Reporting",
-    description: "Track email performance, open rates, response times, and engagement metrics with detailed reports",
-    benefit: "Data-driven insights"
+    title: "Performance Optimization",
+    description: "Creative analysis and iteration for higher CTR, watch time, and conversion across TikTok, Reels, Shorts.",
+    benefit: "Data‑driven wins"
   },
   {
     icon: Sparkles,
-    title: "Email Strategy & Optimization",
-    description: "Comprehensive email strategy, template creation, and workflow optimization for maximum efficiency",
-    benefit: "Streamlined workflow"
+    title: "Usage Rights & Delivery",
+    description: "Clear usage rights, source files on request, and clean handoff in your preferred workspace.",
+    benefit: "No friction"
   }
 ];
 
@@ -72,13 +72,13 @@ export const Services = () => {
         >
           <span className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 md:px-5 md:py-2.5 bg-gradient-to-br from-[hsl(var(--gold))] via-[hsl(var(--brand-blue))] to-[hsl(var(--gold))] text-white text-xs sm:text-sm md:text-base font-semibold rounded-full mb-3 sm:mb-4 shadow-[0_8px_24px_-6px_rgba(0,123,255,0.4)] border border-white/20 backdrop-blur-sm relative overflow-hidden">
             <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-50"></span>
-            <span className="relative z-10">Email Management Services</span>
+            <span className="relative z-10">UGC Services</span>
           </span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-foreground dark:text-white leading-tight tracking-tight">
-            Complete <span className="text-primary">Email Solutions</span>
+            End‑to‑End <span className="text-primary">UGC Production</span>
           </h2>
           <p className="text-base sm:text-lg md:text-lg lg:text-xl text-muted-foreground max-w-3xl leading-relaxed px-2 dark:text-white/90">
-            From inbox management to campaign execution—organized, optimized, and managed with professional care and attention to detail.
+            Script → cast → shoot → edit → deliver. Short‑form videos that feel native, sell benefits, and drive conversions across TikTok, Reels, and Shorts.
           </p>
         </motion.div>
 

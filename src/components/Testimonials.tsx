@@ -5,23 +5,23 @@ import { motion } from "framer-motion";
 const testimonials = [
   {
     name: "Sarah Mitchell",
-    company: "TechVentures Inc.",
-    role: "CEO",
-    content: "Their email management transformed my productivity. I went from drowning in 200+ daily emails to having a perfectly organized inbox. Response times improved by 75%.",
+    company: "FitGear Co.",
+    role: "Marketing Director",
+    content: "Their UGC videos tripled our TikTok conversion rate. Authentic creators, fast turnaround, and hooks that actually stop the scroll. Best ROI we've seen.",
     rating: 5
   },
   {
     name: "Michael Chen",
-    company: "GrowthLabs",
-    role: "Marketing Director",
-    content: "The email campaign management service doubled our open rates and tripled conversions. Their automation workflows saved us 15 hours per week.",
+    company: "BeautyBox",
+    role: "Founder",
+    content: "We went from 2% CTR to 8% with their UGC ads. The creators they cast feel genuine, and the editing is platform-perfect. Scaled our brand in 60 days.",
     rating: 5
   },
   {
     name: "Jessica Thompson",
-    company: "Stellar Consulting",
-    role: "Founder",
-    content: "Best investment for my business. They handle everything from inbox organization to client communications. I can finally focus on strategy instead of email chaos.",
+    company: "SnackLab",
+    role: "CMO",
+    content: "Game-changer for our paid social. Their UGC outperformed studio ads 3:1. Fast delivery, usage rights included, and they nailed our brand voice.",
     rating: 5
   }
 ];
@@ -45,10 +45,10 @@ export const Testimonials = () => {
           transition={{ duration: 0.6, ease: "easeOut" }}
         >
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-foreground dark:text-white leading-tight tracking-tight px-2">
-            Trusted by <span className="text-primary">500+ Professionals</span>
+            Trusted by <span className="bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] bg-clip-text text-transparent">200+ Brands</span>
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl px-2 dark:text-white/90">
-            Real results—inbox zero achieved, response times reduced by 75%, and email productivity increased across all industries.
+            Real results—CTR increased by 3x, ROAS improved 250%, and UGC ads outperforming studio content across DTC brands.
           </p>
         </motion.div>
 
@@ -56,7 +56,7 @@ export const Testimonials = () => {
           {testimonials.map((testimonial, index) => (
             <motion.div 
               key={index}
-              className="relative bg-card/50 backdrop-blur-sm border border-[hsl(215,32%,91%)] dark:border-border/40 rounded-xl p-5 sm:p-6 md:p-8 hover:border-[hsl(var(--gold))]/60 dark:hover:border-[hsl(var(--gold))]/60 hover:shadow-[0_20px_60px_-15px_hsl(217_91%_60%/0.3),0_0_30px_hsl(217_91%_60%/0.1)] dark:hover:shadow-[0_20px_60px_-15px_rgba(59,130,246,0.25),0_0_30px_rgba(59,130,246,0.1)] transition-all duration-300 hover:-translate-y-2 group"
+              className="relative bg-card/50 backdrop-blur-sm border border-[hsl(215,32%,91%)] dark:border-border/40 rounded-xl p-5 sm:p-6 md:p-8 hover:border-[hsl(var(--brand-green))]/60 dark:hover:border-[hsl(var(--gold))]/60 hover:shadow-[0_20px_60px_-15px_hsl(142_70%_45%/0.3),0_0_30px_hsl(142_70%_45%/0.1)] dark:hover:shadow-[0_20px_60px_-15px_rgba(34,197,94,0.25),0_0_30px_rgba(34,197,94,0.1)] transition-all duration-300 hover:-translate-y-2 group"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -86,7 +86,7 @@ export const Testimonials = () => {
                     whileInView={{ scale: 1, rotate: 0 }}
                     transition={{ delay: 0.1 * i, type: "spring", stiffness: 200 }}
                   >
-                    <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-gold text-gold drop-shadow-[0_2px_4px_rgba(59,130,246,0.3)]" />
+                    <Star className="w-4 h-4 sm:w-5 sm:h-5 fill-[hsl(var(--gold))] text-[hsl(var(--gold))] drop-shadow-[0_2px_4px_rgba(250,204,21,0.4)]" />
                   </motion.div>
                 ))}
               </div>
@@ -105,23 +105,23 @@ export const Testimonials = () => {
         </div>
 
         <motion.div 
-          className="relative bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-xl border border-[hsl(215,32%,91%)] dark:border-border/40 rounded-2xl p-6 sm:p-8 md:p-10 lg:p-12 max-w-5xl mx-auto hover:border-[hsl(var(--gold))]/70 dark:hover:border-[hsl(var(--gold))]/70 hover:shadow-[0_25px_70px_-15px_hsl(217_91%_60%/0.35),0_0_40px_hsl(217_91%_60%/0.15)] dark:hover:shadow-[0_25px_70px_-15px_rgba(59,130,246,0.3),0_0_40px_rgba(59,130,246,0.1)] transition-all duration-300 overflow-hidden group"
+          className="relative bg-gradient-to-br from-card/80 to-card/60 backdrop-blur-xl border border-[hsl(215,32%,91%)] dark:border-border/40 rounded-2xl p-6 sm:p-8 md:p-10 lg:p-12 max-w-5xl mx-auto hover:border-[hsl(var(--brand-green))]/70 dark:hover:border-[hsl(var(--gold))]/70 hover:shadow-[0_25px_70px_-15px_hsl(142_70%_45%/0.35),0_0_40px_hsl(142_70%_45%/0.15)] dark:hover:shadow-[0_25px_70px_-15px_rgba(34,197,94,0.3),0_0_40px_rgba(34,197,94,0.1)] transition-all duration-300 overflow-hidden group"
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
         >
           <div className="text-left">
-            <span className="inline-block px-3 py-1 bg-card dark:bg-[hsl(250,45%,20%)]/50 text-[hsl(var(--gold))] dark:text-[hsl(var(--gold))] text-xs sm:text-sm font-semibold rounded-full mb-3 sm:mb-4">
+            <span className="inline-block px-3 py-1 bg-card dark:bg-[hsl(222,12%,15%)]/50 text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))] text-xs sm:text-sm font-semibold rounded-full mb-3 sm:mb-4">
               Success Story
             </span>
             <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-foreground">
-              Case Study: <span className="text-primary">75% Time Saved with Email Management</span>
+              Case Study: <span className="bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] bg-clip-text text-transparent">3x ROAS with UGC Ads</span>
             </h3>
             <p className="text-sm sm:text-base md:text-lg text-muted-foreground mb-5 sm:mb-6 leading-relaxed max-w-3xl">
-              See how we helped a Fortune 500 executive achieve inbox zero and reduce email processing time from 4 hours to 1 hour daily.
+              See how we helped a DTC skincare brand scale from $50K to $200K/month with authentic UGC that outperformed studio ads 3:1.
             </p>
-            <Button size="lg" className="w-full sm:w-auto text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[hsl(var(--gold))] to-[hsl(var(--brand-blue))] text-white hover:opacity-95 transition-all duration-300 hover:scale-105 font-semibold border-0">
+            <Button size="lg" className="w-full sm:w-auto text-sm sm:text-base px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] text-white hover:opacity-95 transition-all duration-300 hover:scale-105 font-semibold border-0">
               View Full Case Study
             </Button>
           </div>

@@ -14,9 +14,9 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Light Mode - Improved Gmail Color Scheme */
-    --background: 210 20% 97%; /* Softer blue-tinted background like Gmail */
-    --foreground: 210 20% 10%; /* Blue-black text for better readability */
+    /* Light Mode - Bright UGC Color Scheme */
+    --background: 60 20% 98%; /* Soft warm background */
+    --foreground: 210 20% 10%; /* Neutral dark text */
 
     --card: 0 0% 100%; /* Pure white cards for contrast */
     --card-foreground: 210 20% 10%;
@@ -24,16 +24,16 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 210 20% 10%;
 
-    --primary: 221 54% 53%; /* Gmail Blue (#3e65cf) */
+    --primary: 48 100% 53%; /* Vibrant Yellow */
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 3 85% 42%; /* Gmail Red (#c71610) */
+    --secondary: 142 70% 45%; /* Fresh Green */
     --secondary-foreground: 0 0% 100%;
 
     --muted: 210 20% 95%; /* Blue-tinted muted background */
     --muted-foreground: 210 15% 40%; /* Better contrast for muted text */
 
-    --accent: 221 54% 53%; /* Gmail Blue accent */
+    --accent: 142 70% 45%; /* Green accent */
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84.2% 60.2%;
@@ -41,30 +41,32 @@ All colors MUST be HSL.
 
     --border: 210 25% 88%; /* More visible borders with blue tint */
     --input: 210 20% 92%; /* Softer input backgrounds */
-    --ring: 221 54% 53%; /* Gmail Blue focus ring */
+    --ring: 48 100% 53%; /* Yellow focus ring */
 
     --radius: 0.5rem;
 
-    /* Custom tokens for Gmail theme */
-    --gold: 221 54% 53%; /* Gmail Blue (#3e65cf) */
-    --gold-dark: 221 54% 45%; /* Darker Gmail Blue */
-    --gold-light: 221 54% 65%; /* Lighter Gmail Blue */
-    --brand-blue: 221 54% 51%; /* Gmail Blue Alt (#3b60c4) */
-    --gmail-red: 3 85% 42%; /* Gmail Red (#c71610) */
-    --gmail-yellow: 43 92% 50%; /* Gmail Yellow (#f2a60c) */
-    --gmail-green: 133 89% 28%; /* Gmail Green (#08851b) */
+    /* Custom tokens for UGC theme */
+    --brand-yellow: 48 100% 53%;
+    --brand-yellow-dark: 48 100% 45%;
+    --brand-yellow-light: 48 100% 65%;
+    --brand-green: 142 70% 45%;
+    --brand-green-light: 142 70% 60%;
+    --gold: 48 100% 53%;
+    --gold-dark: 48 100% 45%;
+    --gold-light: 48 100% 65%;
+    --brand-blue: 142 70% 45%; /* repurposed as green in gradients */
 
     /* Simple Gradients */
-    --gradient-gold: linear-gradient(135deg, hsl(221 54% 53%) 0%, hsl(3 85% 42%) 100%);
+    --gradient-gold: linear-gradient(135deg, hsl(var(--brand-yellow)) 0%, hsl(var(--brand-green)) 100%);
     --gradient-dark: linear-gradient(180deg, hsl(210, 15%, 20%) 0%, hsl(210, 15%, 25%) 100%);
-    --gradient-light: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(210 20% 96%) 100%);
+    --gradient-light: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(60 20% 97%) 100%);
 
     /* Enhanced Shadows - Gmail-inspired */
-    --shadow-gold: 0 10px 40px -10px hsl(221 54% 53% / 0.15);
-    --shadow-gold-lg: 0 25px 80px -20px hsl(221 54% 53% / 0.25);
-    --shadow-elegant: 0 20px 60px -15px hsl(210 20% 30% / 0.12);
+    --shadow-gold: 0 10px 40px -10px hsl(48 100% 53% / 0.25);
+    --shadow-gold-lg: 0 25px 80px -20px hsl(48 100% 53% / 0.35);
+    --shadow-elegant: 0 20px 60px -15px hsl(142 30% 30% / 0.14);
     --shadow-card: 0 2px 8px -2px hsl(210 20% 30% / 0.08);
-    --shadow-brutal: 8px 8px 0px hsl(221 54% 53%);
+    --shadow-brutal: 8px 8px 0px hsl(var(--brand-yellow));
 
     /* Transitions - Ultra smooth */
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -76,12 +78,12 @@ All colors MUST be HSL.
 
     --sidebar-background: 210 20% 97%;
     --sidebar-foreground: 210 20% 10%;
-    --sidebar-primary: 221 54% 53%;
+    --sidebar-primary: 48 100% 53%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 210 20% 95%;
     --sidebar-accent-foreground: 210 20% 10%;
     --sidebar-border: 210 25% 88%;
-    --sidebar-ring: 221 54% 53%;
+    --sidebar-ring: 48 100% 53%;
 
     /* Typographic + layout tokens */
     --heading-color: 210 20% 10%;
@@ -90,59 +92,56 @@ All colors MUST be HSL.
   }
 
   .dark {
-    /* Dark Mode - Gmail Dark Theme */
-    --background: 0 0% 12%;
-    --foreground: 0 0% 95%;
+    /* Dark Mode - UGC Yellow/Green */
+    --background: 222 12% 10%;
+    --foreground: 0 0% 96%;
 
-    --card: 0 0% 15%;
-    --card-foreground: 0 0% 95%;
+    --card: 222 12% 13%;
+    --card-foreground: 0 0% 96%;
 
-    --popover: 0 0% 15%;
-    --popover-foreground: 0 0% 95%;
+    --popover: 222 12% 13%;
+    --popover-foreground: 0 0% 96%;
 
-    --primary: 221 54% 53%; /* Gmail Blue (#3e65cf) */
-    --primary-foreground: 0 0% 100%;
+    --primary: 48 100% 53%; /* Yellow */
+    --primary-foreground: 0 0% 10%;
 
-    --secondary: 3 85% 42%; /* Gmail Red (#c71610) */
+    --secondary: 142 70% 45%; /* Green */
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 20%;
-    --muted-foreground: 0 0% 65%;
+    --muted: 222 12% 18%;
+    --muted-foreground: 0 0% 70%;
 
-    --accent: 221 54% 53%; /* Gmail Blue accent */
+    --accent: 142 70% 45%;
     --accent-foreground: 0 0% 100%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 210 20% 25%;
-    --input: 210 20% 25%;
-    --ring: 211 100% 55%;
+    --border: 222 12% 22%;
+    --input: 222 12% 22%;
+    --ring: 48 100% 53%;
 
-    /* Simple Dark Gradients */
-    --gradient-dark: linear-gradient(180deg, hsl(210, 20%, 12%) 0%, hsl(210, 20%, 15%) 100%);
+    /* Dark Gradients */
+    --gradient-dark: linear-gradient(180deg, hsl(222 12% 10%) 0%, hsl(222 12% 13%) 100%);
 
-    /* Simple Shadows for Dark Mode */
-    --shadow-elegant: 0 20px 60px -15px hsl(210 20% 8% / 0.4);
+    /* Shadows */
+    --shadow-elegant: 0 20px 60px -15px hsl(222 12% 5% / 0.5);
 
-    --sidebar-background: 0 0% 12%;
-    --sidebar-foreground: 0 0% 95%;
-    --sidebar-primary: 221 54% 53%;
-    --sidebar-primary-foreground: 0 0% 95%;
-    --sidebar-accent: 221 54% 53%;
-    --sidebar-accent-foreground: 0 0% 95%;
-    --sidebar-border: 0 0% 25%;
-    --sidebar-ring: 221 54% 53%;
+    --sidebar-background: 222 12% 10%;
+    --sidebar-foreground: 0 0% 96%;
+    --sidebar-primary: 48 100% 53%;
+    --sidebar-primary-foreground: 0 0% 10%;
+    --sidebar-accent: 142 70% 45%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-border: 222 12% 22%;
+    --sidebar-ring: 48 100% 53%;
 
-    --heading-color: 0 0% 95%;
-    --brand-blue: 221 54% 51%; /* Gmail Blue (#3b60c4) */
-    --gold: 221 54% 53%; /* Gmail Blue (#3e65cf) */
-    --gmail-red: 3 85% 42%; /* Gmail Red (#c71610) */
-    --gmail-yellow: 43 92% 50%; /* Gmail Yellow (#f2a60c) */
-    --gmail-green: 133 89% 28%; /* Gmail Green (#08851b) */
+    --heading-color: 0 0% 96%;
+    --brand-blue: 142 70% 45%; /* use green for gradients */
+    --gold: 48 100% 53%;
 
     /* Dark gradient */
-    --gradient-dark: linear-gradient(180deg, hsl(210, 20%, 12%) 0%, hsl(210, 20%, 15%) 100%);
+    --gradient-dark: linear-gradient(180deg, hsl(222 12% 10%) 0%, hsl(222 12% 13%) 100%);
   }
 }
 
@@ -190,14 +189,9 @@ All colors MUST be HSL.
     color-scheme: dark;
   }
 
-  /* Simple Background Styling */
-  .dark {
-    background: hsl(330, 15%, 12%);
-  }
-
-  .dark body {
-    background: hsl(330, 15%, 12%);
-  }
+  /* Use design tokens for background */
+  .dark { background: hsl(var(--background)); }
+  .dark body { background: hsl(var(--background)); }
 
   /* Professional button styles */
   button, a {

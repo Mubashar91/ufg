@@ -28,60 +28,60 @@ interface CaseStudy {
 const caseStudies: CaseStudy[] = [
   {
     id: 1,
-    title: "Transforming Email Chaos into Organized Efficiency",
-    company: "TechStart Inc.",
-    industry: "SaaS Startup",
-    challenge: "CEO drowning in 500+ daily emails, missing critical client communications, and spending 4+ hours daily on email.",
-    solution: "Implemented smart filtering system, priority inbox setup, automated responses, and dedicated email management with 2-hour response SLA.",
+    title: "From $50K to $200K/Month with Authentic UGC",
+    company: "GlowSkin Co.",
+    industry: "DTC Skincare",
+    challenge: "Studio ads were expensive and underperforming. CPAs were $85+ and ROAS was stuck at 1.8x. Needed scalable creative that converts.",
+    solution: "Replaced studio ads with authentic UGC from real customers. Tested 15 creators, optimized hooks, and scaled winning variants across TikTok and Meta.",
     results: [
-      { metric: "Time Saved", value: "75%", description: "Daily email time reduced" },
-      { metric: "Response Time", value: "2 hrs", description: "Average response time" },
-      { metric: "Inbox Zero", value: "Daily", description: "Maintained consistently" },
-      { metric: "Setup", value: "3 days", description: "From audit to launch" }
+      { metric: "ROAS", value: "4.2x", description: "Return on ad spend" },
+      { metric: "CPA", value: "-62%", description: "Cost per acquisition" },
+      { metric: "Revenue", value: "$200K", description: "Monthly revenue" },
+      { metric: "Time", value: "60 days", description: "From test to scale" }
     ],
-    testimonial: "I finally have time to focus on growing my business instead of drowning in emails.",
-    testimonialAuthor: "Sarah Chen",
-    testimonialRole: "CEO, TechStart Inc.",
-    image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&h=500&fit=crop",
-    stats: { mainResult: "75% Time Saved", timeframe: "3 days", seoFocus: "Inbox Management" }
+    testimonial: "UGC ads outperformed our studio content 3:1. We scaled from $50K to $200K/month in 60 days.",
+    testimonialAuthor: "Emma Rodriguez",
+    testimonialRole: "Founder, GlowSkin Co.",
+    image: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=800&h=500&fit=crop",
+    stats: { mainResult: "4.2x ROAS", timeframe: "60 days", seoFocus: "UGC Ads" }
   },
   {
     id: 2,
-    title: "Email Campaign Success: 10x Engagement Growth",
-    company: "GrowthCo Marketing",
-    industry: "Marketing Agency",
-    challenge: "Low email campaign engagement, poor deliverability rates, and inconsistent messaging across client communications.",
-    solution: "Implemented segmentation strategy, A/B testing framework, automated drip campaigns, and professional email templates with tracking.",
+    title: "TikTok UGC Strategy: 8% CTR on Cold Traffic",
+    company: "FitFuel Nutrition",
+    industry: "Supplements",
+    challenge: "Low engagement on paid TikTok ads. CTR was 1.2% and watch time was under 2 seconds. Ads felt like ads.",
+    solution: "Created native TikTok UGC with trending sounds, authentic testimonials, and data-driven hooks. A/B tested 20+ variants.",
     results: [
-      { metric: "Open Rate", value: "+145%", description: "Campaign engagement" },
-      { metric: "CTR", value: "+89%", description: "Click-through rate" },
-      { metric: "Conversions", value: "+67%", description: "Lead conversions" },
-      { metric: "Time", value: "4 wks", description: "From strategy to results" }
+      { metric: "CTR", value: "8.1%", description: "Click-through rate" },
+      { metric: "Watch Time", value: "+340%", description: "Average watch time" },
+      { metric: "CPC", value: "-58%", description: "Cost per click" },
+      { metric: "Time", value: "3 weeks", description: "From brief to scale" }
     ],
-    testimonial: "Our email campaigns finally deliver results. The ROI has been incredible.",
-    testimonialAuthor: "Michael Torres",
-    testimonialRole: "Director, GrowthCo Marketing",
-    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&h=500&fit=crop",
-    stats: { mainResult: "+145% Open Rate", timeframe: "4 weeks", seoFocus: "Email Campaigns" }
+    testimonial: "Our TikTok ads finally feel native. 8% CTR on cold traffic is unheard of in our niche.",
+    testimonialAuthor: "Jake Morrison",
+    testimonialRole: "CMO, FitFuel Nutrition",
+    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=500&fit=crop",
+    stats: { mainResult: "8.1% CTR", timeframe: "3 weeks", seoFocus: "TikTok UGC" }
   },
   {
     id: 3,
-    title: "Enterprise Email Security & Compliance Overhaul",
-    company: "SecureBank Corp",
-    industry: "Financial Services",
-    challenge: "Security vulnerabilities, compliance risks, and lack of email encryption protocols for sensitive client data.",
-    solution: "Implemented end-to-end encryption, two-factor authentication, phishing protection, compliance monitoring, and security training program.",
+    title: "Scaling UGC: 50 Videos/Month at $200/Video",
+    company: "HomeEssentials",
+    industry: "Home Goods",
+    challenge: "Needed high-volume UGC for 20+ SKUs. Previous agency charged $800/video with 3-week turnaround. Couldn't scale.",
+    solution: "Built a creator network, batch filming workflows, and quality control systems. Delivered 50 videos/month with 5-day turnaround.",
     results: [
-      { metric: "Security", value: "100%", description: "Compliance achieved" },
-      { metric: "Threats", value: "-95%", description: "Phishing attempts blocked" },
-      { metric: "Encryption", value: "All", description: "Emails encrypted" },
-      { metric: "Time", value: "2 wks", description: "Full implementation" }
+      { metric: "Volume", value: "50/mo", description: "Videos delivered" },
+      { metric: "Cost", value: "$200", description: "Per video" },
+      { metric: "Turnaround", value: "5 days", description: "Average delivery" },
+      { metric: "Time", value: "2 months", description: "From pilot to scale" }
     ],
-    testimonial: "Our email security is now enterprise-grade. Peace of mind for us and our clients.",
-    testimonialAuthor: "Jennifer Walsh",
-    testimonialRole: "CTO, SecureBank Corp",
-    image: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=500&fit=crop",
-    stats: { mainResult: "100% Secure", timeframe: "2 weeks", seoFocus: "Email Security" }
+    testimonial: "We went from 5 videos/month to 50 without sacrificing quality. Game-changer for our paid social.",
+    testimonialAuthor: "Lisa Chen",
+    testimonialRole: "Head of Growth, HomeEssentials",
+    image: "https://images.unsplash.com/photo-1556742111-a301076d9d18?w=800&h=500&fit=crop",
+    stats: { mainResult: "50 Videos/Mo", timeframe: "2 months", seoFocus: "UGC Scaling" }
   }
 ];
 
@@ -108,14 +108,14 @@ export const CaseStudies = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <span className="inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-br from-[hsl(var(--gold))] via-[hsl(var(--brand-blue))] to-[hsl(var(--gold))] text-white text-xs sm:text-sm font-semibold rounded-full mb-3 sm:mb-4">
+          <span className="inline-block px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-br from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] text-white text-xs sm:text-sm font-semibold rounded-full mb-3 sm:mb-4">
             Success Stories
           </span>
           <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4 text-foreground dark:text-white">
-            Email Management Success Stories
+            UGC <span className="bg-gradient-to-r from-[hsl(var(--brand-green))] via-[hsl(var(--gold))] to-[hsl(var(--brand-green))] bg-clip-text text-transparent">Success Stories</span>
           </h2>
           <p className="text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-3xl leading-relaxed">
-            See how we transformed email chaos into organized efficiency with smart automation, security protocols, and professional management.
+            See how we helped DTC brands scale revenue with authentic UGC that outperforms studio ads 3:1 on paid social.
           </p>
         </motion.div>
 
@@ -135,7 +135,7 @@ export const CaseStudies = () => {
                 stiffness: 100,
                 damping: 20
               }}
-              className="group relative bg-card/80 backdrop-blur-sm border border-[hsl(215,32%,91%)] dark:border-border/40 rounded-2xl overflow-hidden hover:border-[hsl(var(--gold))]/60 dark:hover:border-[hsl(var(--gold))]/60 hover:shadow-[0_25px_70px_-15px_hsl(217_91%_60%/0.35),0_0_35px_hsl(217_91%_60%/0.15)] dark:hover:shadow-[0_25px_70px_-15px_rgba(59,130,246,0.3),0_0_35px_rgba(59,130,246,0.1)] transition-all duration-300 cursor-pointer w-full hover:-translate-y-1"
+              className="group relative bg-card/80 backdrop-blur-sm border border-[hsl(215,32%,91%)] dark:border-border/40 rounded-2xl overflow-hidden hover:border-[hsl(var(--brand-green))]/60 dark:hover:border-[hsl(var(--gold))]/60 hover:shadow-[0_25px_70px_-15px_hsl(142_70%_45%/0.35),0_0_35px_hsl(142_70%_45%/0.15)] dark:hover:shadow-[0_25px_70px_-15px_rgba(34,197,94,0.3),0_0_35px_rgba(34,197,94,0.1)] transition-all duration-300 cursor-pointer w-full hover:-translate-y-1"
               onClick={() => navigate(`/case-study/${study.id}`)}
               whileHover={{ 
                 y: -6, 
@@ -172,15 +172,15 @@ export const CaseStudies = () => {
                 <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-4 sm:mb-5 pb-4 sm:pb-5 border-b border-[hsl(220,40%,92%)] dark:border-border/50">
                   <div className="text-center">
                     <div className="text-foreground dark:text-white font-bold text-sm sm:text-base lg:text-lg">{study.stats.mainResult}</div>
-                    <div className="text-[10px] sm:text-xs text-[hsl(217,91%,65%)] dark:text-[hsl(217,91%,75%)]">Result</div>
+                    <div className="text-[10px] sm:text-xs text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))]">Result</div>
                   </div>
                   <div className="text-center">
                     <div className="text-foreground dark:text-white font-bold text-sm sm:text-base lg:text-lg">{study.stats.seoFocus}</div>
-                    <div className="text-[10px] sm:text-xs text-[hsl(217,91%,65%)] dark:text-[hsl(217,91%,75%)]">Focus</div>
+                    <div className="text-[10px] sm:text-xs text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))]">Focus</div>
                   </div>
                   <div className="text-center">
                     <div className="text-foreground dark:text-white font-bold text-sm sm:text-base lg:text-lg">{study.stats.timeframe}</div>
-                    <div className="text-[10px] sm:text-xs text-[hsl(217,91%,65%)] dark:text-[hsl(217,91%,75%)]">Timeframe</div>
+                    <div className="text-[10px] sm:text-xs text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))]">Timeframe</div>
                   </div>
                 </div>
 
@@ -195,7 +195,7 @@ export const CaseStudies = () => {
                 </p>
 
                 {/* Read more */}
-                <div className="flex items-center gap-1 sm:gap-2 text-[hsl(217,91%,65%)] dark:text-[hsl(217,91%,75%)] font-semibold text-xs sm:text-sm group-hover:gap-2 sm:group-hover:gap-3 transition-all">
+                <div className="flex items-center gap-1 sm:gap-2 text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))] font-semibold text-xs sm:text-sm group-hover:gap-2 sm:group-hover:gap-3 transition-all">
                   <span className="hidden sm:inline">View Full Case Study</span>
                   <span className="sm:hidden">View Study</span>
                   <ArrowRight className="w-3 h-3 sm:w-4 sm:h-4" />
@@ -216,9 +216,9 @@ export const CaseStudies = () => {
           <p className="text-sm sm:text-base lg:text-lg text-muted-foreground mb-4 sm:mb-6">
             Ready to write your own success story?
           </p>
-          <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[hsl(var(--brand-blue))] to-[hsl(var(--brand-blue))] text-white font-semibold text-sm sm:text-base rounded-lg sm:rounded-xl hover:opacity-90 transition-all duration-300 hover:scale-105 shadow-lg">
-            <span className="hidden sm:inline">Book Your Free Consultation →</span>
-            <span className="sm:hidden">Get Started →</span>
+          <button className="w-full sm:w-auto px-6 sm:px-8 py-3 sm:py-4 bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] text-white font-semibold text-sm sm:text-base rounded-lg sm:rounded-xl hover:opacity-90 transition-all duration-300 hover:scale-105 shadow-lg">
+            <span className="hidden sm:inline">Get Your UGC Quote →</span>
+            <span className="sm:hidden">Get Quote →</span>
           </button>
         </motion.div>
       </div>

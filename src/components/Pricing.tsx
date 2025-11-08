@@ -11,7 +11,7 @@ const BULK_DISCOUNT_RATE = 0.03;
 // TypeScript Interface
 interface PricingPlan {
   name: string;
-  hours: string;
+  deliverables: string;
   price: number;
   setupFee: number;
   features: string[];
@@ -22,47 +22,51 @@ interface PricingPlan {
 const plans: PricingPlan[] = [
   {
     name: "Starter",
-    hours: "Up to 100 emails/day",
-    price: 499,
+    deliverables: "5 UGC videos",
+    price: 1295,
     setupFee: 0,
     features: [
-      "Inbox organization & filtering",
-      "Priority inbox setup",
-      "Basic automation rules",
-      "Email response templates",
-      "Weekly performance reports"
+      "5 fully-edited UGC videos",
+      "1-2 vetted creators",
+      "3 hook variations per video",
+      "Captions + multi-platform cuts (9:16, 1:1, 4:5)",
+      "60-day usage rights for paid ads",
+      "5-7 day turnaround"
     ],
     highlighted: false
   },
   {
-    name: "Professional",
-    hours: "Up to 300 emails/day",
-    price: 999,
+    name: "Growth",
+    deliverables: "10 UGC videos",
+    price: 2395,
     setupFee: 0,
     badge: "Most Popular",
     features: [
-      "Everything in Starter",
-      "Advanced automation & workflows",
-      "Email campaign management",
-      "2-hour response time SLA",
-      "Daily summaries + analytics",
-      "Priority support"
+      "10 fully-edited UGC videos",
+      "2-3 diverse creators",
+      "4 hook variations per video",
+      "A/B testing framework + performance insights",
+      "Unlimited usage rights for paid ads",
+      "Priority 3-5 day turnaround",
+      "Monthly strategy call"
     ],
     highlighted: true
   },
   {
-    name: "Enterprise",
-    hours: "Unlimited emails",
-    price: 1999,
+    name: "Scale",
+    deliverables: "20 UGC videos",
+    price: 4295,
     setupFee: 0,
     badge: "Best Value",
     features: [
-      "Everything in Professional",
-      "Dedicated email manager",
-      "Enterprise security protocols",
-      "Custom integrations & API",
-      "24/7 monitoring & support",
-      "Custom SLAs & compliance"
+      "20 fully-edited UGC videos",
+      "4-6 creators + backup casting",
+      "5+ hook variations per video",
+      "Creative testing matrix + ROAS tracking",
+      "Full commercial usage rights (perpetual)",
+      "Rush 48-72hr delivery available",
+      "Bi-weekly strategy + optimization calls",
+      "Dedicated account manager"
     ],
     highlighted: false
   }
@@ -80,8 +84,8 @@ export const Pricing = () => {
   const savings = discount > 0 ? Math.round(totalPrice * discount) : 0;
   
   // Calculate average price per VA per hour
-  const avgHoursPerWeek = 20; // Professional plan baseline
-  const avgPricePerVA = plans[1].price; // Professional plan price
+  const avgHoursPerWeek = 0; // not used in UGC context
+  const avgPricePerVA = plans[1].price;
 
   return (
     <motion.section 
@@ -104,17 +108,17 @@ export const Pricing = () => {
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           <motion.span 
-            className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-br from-[hsl(var(--gold))] via-[hsl(var(--brand-blue))] to-[hsl(var(--gold))] text-white text-xs sm:text-sm font-bold rounded-full mb-3 sm:mb-4 shadow-[0_8px_24px_-6px_rgba(59,130,246,0.4)] border border-white/20 backdrop-blur-sm relative overflow-hidden"
+            className="inline-block px-3 py-1.5 sm:px-4 sm:py-2 bg-gradient-to-br from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] text-white text-xs sm:text-sm font-bold rounded-full mb-3 sm:mb-4 shadow-[0_8px_24px_-6px_rgba(34,197,94,0.4)] border border-white/20 backdrop-blur-sm relative overflow-hidden"
             whileHover={{ scale: 1.05 }}
           >
             <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-50"></span>
             <span className="relative z-10">Transparent Pricing</span>
           </motion.span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 text-foreground leading-tight tracking-tight">
-            Email Management <span className="text-primary">Packages</span>
+            UGC Content <span className="bg-gradient-to-r from-[hsl(var(--brand-green))] via-[hsl(var(--gold))] to-[hsl(var(--brand-green))] bg-clip-text text-transparent">Packages</span>
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-            Choose a plan that fits your email volume and needs. Professional management with transparent pricing. No hidden fees.
+            Production-ready UGC at scale. All packages include scripting, creator casting, filming, editing, captions, and commercial usage rights.
           </p>
         </motion.div>
 
@@ -126,16 +130,16 @@ export const Pricing = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.25 }}
         >
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[hsl(221,54%,53%)] via-[hsl(217,89%,61%)] to-[hsl(221,54%,53%)] p-[3px] shadow-[0_20px_50px_-12px_rgba(62,101,207,0.4)] hover:shadow-[0_25px_60px_-12px_rgba(62,101,207,0.5)] transition-all duration-300">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[hsl(var(--brand-green))] via-[hsl(var(--gold))] to-[hsl(var(--brand-green))] p-[3px] shadow-[0_20px_50px_-12px_rgba(34,197,94,0.4)] hover:shadow-[0_25px_60px_-12px_rgba(34,197,94,0.5)] transition-all duration-300">
             <div className="relative rounded-3xl p-8 sm:p-10 bg-white dark:bg-[hsl(210,20%,12%)] backdrop-blur-xl">
               {/* Decorative elements */}
-              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[hsl(221,54%,53%)]/10 to-transparent rounded-full blur-3xl" />
-              <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-[hsl(217,89%,61%)]/10 to-transparent rounded-full blur-2xl" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-gradient-to-br from-[hsl(var(--brand-green))]/10 to-transparent rounded-full blur-3xl" />
+              <div className="absolute bottom-0 left-0 w-48 h-48 bg-gradient-to-tr from-[hsl(var(--gold))]/10 to-transparent rounded-full blur-2xl" />
               
               <div className="relative flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div className="flex items-start gap-4 text-center sm:text-left flex-1">
                   <motion.div
-                    className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-[hsl(221,54%,53%)] to-[hsl(217,89%,61%)] rounded-2xl flex items-center justify-center shadow-lg"
+                    className="flex-shrink-0 w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] rounded-2xl flex items-center justify-center shadow-lg"
                     whileHover={{ scale: 1.05, rotate: 5 }}
                     transition={{ type: "spring", stiffness: 400, damping: 10 }}
                   >
@@ -143,16 +147,16 @@ export const Pricing = () => {
                   </motion.div>
                   <div className="flex-1">
                     <h3 className="text-2xl sm:text-3xl font-bold mb-2 text-foreground dark:text-white">
-                      Free 15‑Minute Consultation
+                      Free UGC Strategy Call
                     </h3>
                     <p className="text-sm sm:text-base text-muted-foreground dark:text-white/80 leading-relaxed">
-                      Get expert advice on email management, automation, and workflow optimization before choosing a plan.
+                      Get expert advice on UGC strategy, creator casting, and platform optimization before choosing a package.
                     </p>
                   </div>
                 </div>
                 <Button 
                   size="lg"
-                  className="flex-shrink-0 bg-gradient-to-r from-[hsl(221,54%,53%)] to-[hsl(217,89%,61%)] text-white hover:from-[hsl(221,54%,58%)] hover:to-[hsl(217,89%,66%)] transition-all duration-300 hover:scale-105 hover:shadow-xl font-bold shadow-lg px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg border-0 rounded-xl"
+                  className="flex-shrink-0 bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] text-white hover:opacity-90 transition-all duration-300 hover:scale-105 hover:shadow-xl font-bold shadow-lg px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg border-0 rounded-xl"
                   onClick={() => window.location.href = '/book-meeting'}
                 >
                   Book Free Call →
@@ -170,12 +174,12 @@ export const Pricing = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[hsl(199,89%,48%)] via-[hsl(217,89%,61%)] to-[hsl(199,89%,48%)] p-[3px] shadow-[0_20px_50px_-12px_rgba(0,172,193,0.4)] hover:shadow-[0_25px_60px_-12px_rgba(0,172,193,0.5)] transition-all duration-300">
-            <div className="relative bg-gradient-to-br from-[hsl(199,89%,97%)] to-[hsl(217,89%,97%)] dark:from-[hsl(210,20%,15%)] dark:to-[hsl(210,20%,12%)] backdrop-blur-xl rounded-3xl p-8 sm:p-10">
+          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[hsl(var(--gold))] via-[hsl(var(--brand-green))] to-[hsl(var(--gold))] p-[3px] shadow-[0_20px_50px_-12px_rgba(250,204,21,0.4)] hover:shadow-[0_25px_60px_-12px_rgba(250,204,21,0.5)] transition-all duration-300">
+            <div className="relative bg-gradient-to-br from-[hsl(48,100%,97%)] to-[hsl(142,70%,97%)] dark:from-[hsl(210,20%,15%)] dark:to-[hsl(210,20%,12%)] backdrop-blur-xl rounded-3xl p-8 sm:p-10">
               {/* Animated background elements */}
-              <div className="absolute inset-0 bg-gradient-to-br from-[hsl(199,89%,48%)]/5 via-transparent to-[hsl(217,89%,61%)]/5 rounded-3xl" />
+              <div className="absolute inset-0 bg-gradient-to-br from-[hsl(var(--gold))]/5 via-transparent to-[hsl(var(--brand-green))]/5 rounded-3xl" />
               <motion.div 
-                className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-br from-[hsl(199,89%,48%)]/20 to-transparent rounded-full blur-3xl"
+                className="absolute top-0 right-0 w-72 h-72 bg-gradient-to-br from-[hsl(var(--gold))]/20 to-transparent rounded-full blur-3xl"
                 animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               />
@@ -183,7 +187,7 @@ export const Pricing = () => {
               <div className="relative flex flex-col sm:flex-row items-center justify-between gap-6">
                 <div className="flex items-start gap-5 text-center sm:text-left flex-1">
                   <motion.div
-                    className="flex-shrink-0 w-16 h-16 sm:w-18 sm:h-18 bg-gradient-to-br from-[hsl(199,89%,48%)] to-[hsl(217,89%,61%)] rounded-2xl flex items-center justify-center shadow-xl relative"
+                    className="flex-shrink-0 w-16 h-16 sm:w-18 sm:h-18 bg-gradient-to-br from-[hsl(var(--gold))] to-[hsl(var(--brand-green))] rounded-2xl flex items-center justify-center shadow-xl relative"
                     animate={{ 
                       rotate: [0, 5, -5, 0],
                       y: [0, -5, 0]
@@ -192,7 +196,7 @@ export const Pricing = () => {
                   >
                     <Gift className="w-8 h-8 sm:w-9 sm:h-9 text-white" />
                     <motion.div
-                      className="absolute -top-1 -right-1 w-6 h-6 bg-[hsl(43,92%,50%)] rounded-full flex items-center justify-center"
+                      className="absolute -top-1 -right-1 w-6 h-6 bg-[hsl(var(--brand-green))] rounded-full flex items-center justify-center"
                       animate={{ scale: [1, 1.2, 1] }}
                       transition={{ duration: 2, repeat: Infinity }}
                     >
@@ -201,19 +205,19 @@ export const Pricing = () => {
                   </motion.div>
                   <div className="flex-1">
                     <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-foreground dark:text-white">
-                      One Week Free Trial
+                      Sample Video Included
                     </h3>
                     <p className="text-sm sm:text-base md:text-lg text-muted-foreground dark:text-white/80 leading-relaxed">
-                      New customers get <span className="font-bold text-[hsl(199,89%,48%)] dark:text-[hsl(199,89%,60%)] px-2 py-0.5 bg-[hsl(199,89%,48%)]/10 dark:bg-[hsl(199,89%,48%)]/20 rounded-md">7 days free</span> on any plan. No credit card required.
+                      New clients get <span className="font-bold text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))] px-2 py-0.5 bg-[hsl(var(--brand-green))]/10 dark:bg-[hsl(var(--gold))]/20 rounded-md">1 free sample video</span> to test our quality before committing.
                     </p>
                   </div>
                 </div>
                 <Button 
                   size="lg"
-                  className="flex-shrink-0 bg-gradient-to-r from-[hsl(199,89%,48%)] to-[hsl(217,89%,61%)] text-white hover:from-[hsl(199,89%,53%)] hover:to-[hsl(217,89%,66%)] transition-all duration-300 hover:scale-105 hover:shadow-2xl font-bold shadow-xl px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg border-0 rounded-xl"
+                  className="flex-shrink-0 bg-gradient-to-r from-[hsl(var(--gold))] to-[hsl(var(--brand-green))] text-white hover:opacity-90 transition-all duration-300 hover:scale-105 hover:shadow-2xl font-bold shadow-xl px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg border-0 rounded-xl"
                   onClick={() => window.location.href = '/book-meeting'}
                 >
-                  Start Free Trial →
+                  Get Sample Video →
                 </Button>
               </div>
             </div>
@@ -257,19 +261,19 @@ export const Pricing = () => {
                 />
               )}
               
-              <div className={`relative rounded-3xl p-8 sm:p-10 md:p-12 transition-all duration-500 group h-full ${plan.highlighted ? 'bg-gradient-to-br from-[hsl(221,54%,53%)]/5 via-white to-[hsl(217,89%,61%)]/5 dark:from-[hsl(221,54%,53%)]/10 dark:via-[hsl(210,20%,12%)] dark:to-[hsl(217,89%,61%)]/10' : 'bg-white dark:bg-[hsl(210,20%,12%)]'} backdrop-blur-xl text-foreground dark:text-white border-2 ${plan.highlighted ? 'border-[hsl(221,54%,53%)]' : 'border-[hsl(215,32%,91%)] dark:border-border/30'} hover:border-[hsl(221,54%,53%)] dark:hover:border-[hsl(221,54%,53%)] hover:shadow-[0_30px_80px_-15px_rgba(62,101,207,0.4),0_0_50px_rgba(62,101,207,0.15)] dark:hover:shadow-[0_30px_80px_-15px_rgba(62,101,207,0.35),0_0_50px_rgba(62,101,207,0.12)] overflow-hidden`}>
+              <div className={`relative rounded-3xl p-8 sm:p-10 md:p-12 transition-all duration-500 group h-full ${plan.highlighted ? 'bg-gradient-to-br from-[hsl(var(--brand-green))]/5 via-white to-[hsl(var(--gold))]/5 dark:from-[hsl(var(--brand-green))]/10 dark:via-[hsl(210,20%,12%)] dark:to-[hsl(var(--gold))]/10' : 'bg-white dark:bg-[hsl(210,20%,12%)]'} backdrop-blur-xl text-foreground dark:text-white border-2 ${plan.highlighted ? 'border-[hsl(var(--brand-green))]' : 'border-[hsl(215,32%,91%)] dark:border-border/30'} hover:border-[hsl(var(--brand-green))] dark:hover:border-[hsl(var(--gold))] hover:shadow-[0_30px_80px_-15px_rgba(34,197,94,0.4),0_0_50px_rgba(34,197,94,0.15)] dark:hover:shadow-[0_30px_80px_-15px_rgba(34,197,94,0.35),0_0_50px_rgba(34,197,94,0.12)] overflow-hidden`}>
                 {/* Animated background gradient */}
                 <motion.div 
                   className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700"
                   style={{
-                    background: 'radial-gradient(circle at 50% 0%, hsl(221,54%,53%,0.08) 0%, transparent 60%)'
+                    background: 'radial-gradient(circle at 50% 0%, hsl(var(--brand-green), 0.08) 0%, transparent 60%)'
                   }}
                 />
                 
                 {/* Top accent line with animation */}
                 <motion.div 
                   className={`absolute top-0 left-0 right-0 h-1.5 rounded-t-3xl ${
-                    plan.highlighted ? 'bg-gradient-to-r from-[hsl(221,54%,53%)] via-[hsl(217,89%,61%)] to-[hsl(221,54%,53%)]' : 'bg-gradient-to-r from-transparent via-[hsl(221,54%,53%)] to-transparent'
+                    plan.highlighted ? 'bg-gradient-to-r from-[hsl(var(--brand-green))] via-[hsl(var(--gold))] to-[hsl(var(--brand-green))]' : 'bg-gradient-to-r from-transparent via-[hsl(var(--brand-green))] to-transparent'
                   }`}
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
@@ -282,7 +286,7 @@ export const Pricing = () => {
               
                 {plan.badge && (
                   <motion.div 
-                    className="absolute -top-5 right-6 px-5 py-2 rounded-full text-xs font-bold shadow-2xl flex items-center gap-2 bg-gradient-to-r from-[hsl(221,54%,53%)] to-[hsl(217,89%,61%)] text-white border-2 border-white/20 relative overflow-hidden"
+                    className="absolute -top-5 right-6 px-5 py-2 rounded-full text-xs font-bold shadow-2xl flex items-center gap-2 bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] text-white border-2 border-white/20 relative overflow-hidden"
                     initial={{ y: -15, opacity: 0, scale: 0.8 }}
                     whileInView={{ y: 0, opacity: 1, scale: 1 }}
                     transition={{ duration: 0.6, delay: 0.5, type: "spring" }}
@@ -311,23 +315,23 @@ export const Pricing = () => {
                     {plan.name}
                   </motion.h3>
                   <div className="flex items-center gap-2 flex-wrap">
-                    <p className="text-sm font-semibold text-[hsl(221,54%,53%)] dark:text-[hsl(217,89%,61%)]">
-                      {plan.hours}
+                    <p className="text-sm font-semibold text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))]">
+                      {plan.deliverables}
                     </p>
-                    <span className="px-3 py-1 text-xs font-medium rounded-full bg-gradient-to-r from-[hsl(221,54%,53%)]/10 to-[hsl(217,89%,61%)]/10 dark:from-[hsl(221,54%,53%)]/20 dark:to-[hsl(217,89%,61%)]/20 text-[hsl(221,54%,53%)] dark:text-[hsl(217,89%,61%)] border border-[hsl(221,54%,53%)]/20">
-                      Email Management
+                    <span className="px-3 py-1 text-xs font-medium rounded-full bg-gradient-to-r from-[hsl(var(--brand-green))]/10 to-[hsl(var(--gold))]/10 dark:from-[hsl(var(--brand-green))]/20 dark:to-[hsl(var(--gold))]/20 text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))] border border-[hsl(var(--brand-green))]/20">
+                      Get UGC
                     </span>
                   </div>
                 </div>
 
                 {/* Price */}
-                <div className="mb-8 pb-8 border-b-2 border-[hsl(221,54%,53%)]/10 dark:border-[hsl(221,54%,53%)]/20 relative z-10">
+                <div className="mb-8 pb-8 border-b-2 border-[hsl(var(--brand-green))]/10 dark:border-[hsl(var(--gold))]/20 relative z-10">
                   <div className="flex items-baseline gap-2">
                     <span className="text-lg font-medium text-muted-foreground">
                       $
                     </span>
                     <motion.span 
-                      className="text-6xl sm:text-7xl font-black tracking-tighter bg-gradient-to-br from-[hsl(221,54%,53%)] to-[hsl(217,89%,61%)] bg-clip-text text-transparent"
+                      className="text-6xl sm:text-7xl font-black tracking-tighter bg-gradient-to-br from-[hsl(var(--brand-green))] via-[hsl(var(--gold))] to-[hsl(var(--brand-green))] bg-clip-text text-transparent"
                       initial={{ scale: 0.5, opacity: 0, y: 20 }}
                       whileInView={{ scale: 1, opacity: 1, y: 0 }}
                       transition={{ type: "spring", duration: 0.8, delay: 0.4 }}
@@ -366,7 +370,7 @@ export const Pricing = () => {
                       transition={{ delay: 0.5 + fIndex * 0.1 }}
                     >
                       <motion.div 
-                        className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5 bg-gradient-to-br from-[hsl(221,54%,53%)] to-[hsl(217,89%,61%)] shadow-lg"
+                        className="flex-shrink-0 w-6 h-6 rounded-full flex items-center justify-center mt-0.5 bg-gradient-to-br from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] shadow-lg"
                         whileHover={{ scale: 1.2, rotate: 360 }}
                         transition={{ type: "spring", stiffness: 400, damping: 15 }}
                       >
@@ -387,8 +391,8 @@ export const Pricing = () => {
                   <Button 
                     size="lg"
                     onClick={() => window.location.href = '/book-meeting'}
-                    className={`w-full relative z-10 font-bold text-lg py-7 sm:py-8 rounded-2xl transition-all duration-300 group/btn overflow-hidden min-h-[56px] ${plan.highlighted ? 'bg-gradient-to-r from-[hsl(221,54%,53%)] via-[hsl(217,89%,61%)] to-[hsl(221,54%,53%)] shadow-[0_10px_40px_-10px_rgba(62,101,207,0.5)]' : 'bg-gradient-to-r from-[hsl(221,54%,53%)] to-[hsl(217,89%,61%)]'} text-white hover:shadow-[0_15px_50px_-10px_rgba(62,101,207,0.6)] border-0`}
-                    aria-label={`Get started with ${plan.name} plan - ${plan.hours} at ${Math.round(plan.price * (1 - discount) * vaCount)} per month`}
+                    className={`w-full relative z-10 font-bold text-lg py-7 sm:py-8 rounded-2xl transition-all duration-300 group/btn overflow-hidden min-h-[56px] ${plan.highlighted ? 'bg-gradient-to-r from-[hsl(var(--brand-green))] via-[hsl(var(--gold))] to-[hsl(var(--brand-green))] shadow-[0_10px_40px_-10px_rgba(34,197,94,0.5)]' : 'bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--gold))]'} text-white hover:shadow-[0_15px_50px_-10px_rgba(34,197,94,0.6)] border-0`}
+                    aria-label={`Get started with ${plan.name} plan - ${plan.deliverables} at ${Math.round(plan.price * (1 - discount) * vaCount)} per month`}
                   >
                     {/* Animated background */}
                     <motion.div 
