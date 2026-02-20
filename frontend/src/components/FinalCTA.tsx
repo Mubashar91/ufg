@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Mail, Sparkles, Clock, CheckCircle2, Award, Inbox } from "lucide-react";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export const FinalCTA = () => {
+  const { t } = useLanguage();
   return (
     <motion.section 
       className="relative overflow-hidden py-12 sm:py-16 md:py-20 lg:py-24 xl:py-28 bg-[image:var(--gradient-light)] dark:bg-[image:var(--gradient-dark)] z-60"
@@ -91,7 +93,7 @@ export const FinalCTA = () => {
               >
                 <Sparkles className="w-4 h-4 sm:w-5 sm:h-5" />
               </motion.div>
-              <span className="whitespace-nowrap">Launch High‑Performing UGC</span>
+              <span className="whitespace-nowrap">{t("final.badge")}</span>
               <div className="w-1.5 h-1.5 xs:w-2 xs:h-2 rounded-full bg-[hsl(var(--gold))] animate-pulse"></div>
             </div>
           </motion.div>
@@ -104,10 +106,10 @@ export const FinalCTA = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.7, delay: 0.1 }}
           >
-            <span className="block drop-shadow-lg">Ready to Grow with</span>
+            <span className="block drop-shadow-lg">{t("final.title.pre")}</span>
             <span className="relative inline-block mt-2 sm:mt-3">
               <span className="relative z-10 text-primary drop-shadow-2xl">
-                UGC?
+                {t("final.title.highlight")}
               </span>
               <motion.span 
                 className="absolute bottom-2 sm:bottom-3 left-0 w-full h-4 sm:h-5 bg-white/30 -z-0 rounded-full blur-sm"
@@ -126,9 +128,7 @@ export const FinalCTA = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.15 }}
           >
-            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground leading-relaxed">
-              On‑brand short‑form videos that feel native and sell benefits. Script → cast → shoot → edit → deliver.
-            </p>
+            <p className="text-lg sm:text-xl md:text-2xl text-muted-foreground leading-relaxed">{t("final.oneliner")}</p>
           </motion.div>
           
           {/* Free Trial Badge */}
@@ -141,7 +141,7 @@ export const FinalCTA = () => {
           >
             <div className="px-4 py-2 bg-foreground/5 dark:bg-white/10 backdrop-blur-md rounded-full text-sm font-bold text-foreground dark:text-white border border-border dark:border-white/20 flex items-center gap-2">
               <span className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
-              <span>Free UGC Strategy Call • No Commitment</span>
+              <span>{t("final.free")}</span>
             </div>
           </motion.div>
 
@@ -160,7 +160,7 @@ export const FinalCTA = () => {
             >
               <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
               <span className="relative flex items-center gap-2">
-                <span>Get a UGC Quote</span>
+                <span>{t("cta.getQuote")}</span>
                 <ArrowRight className="h-5 w-5 group-hover:translate-x-1.5 transition-transform duration-300" />
               </span>
             </Button>
@@ -179,7 +179,7 @@ export const FinalCTA = () => {
             whileInView={{ opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.3 }}
           >
-            Trusted by brands to produce on‑brand, high‑converting UGC at scale.
+            {t("final.reassure")}
           </motion.p>
         </motion.div>
       </div>

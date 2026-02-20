@@ -1,35 +1,56 @@
 import { motion, useReducedMotion } from "framer-motion";
-import { ClipboardCheck, Settings, Mail, BarChart3 } from "lucide-react";
+import { ClipboardCheck, Settings, Mail, BarChart3, Calendar } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
+import { apiService, type HowItWorksStep } from "@/services/api";
 
-const steps = [
-  {
-    icon: ClipboardCheck,
-    step: "Step 1",
-    title: "Brief & Strategy",
-    description: "Share your product, target audience, and campaign goals. We develop hooks, scripts, and creator personas tailored to your brand."
-  },
-  {
-    icon: Settings,
-    step: "Step 2",
-    title: "Casting & Production",
-    description: "We cast authentic creators, coordinate filming, and direct on-brand UGC. Professional lighting, sound, and editing standards."
-  },
-  {
-    icon: Mail,
-    step: "Step 3",
-    title: "Edit & Deliver",
-    description: "Fast-turnaround editing optimized for TikTok, Reels, and Shorts. Multiple formats, captions, and usage rights included."
-  },
-  {
-    icon: BarChart3,
-    step: "Step 4",
-    title: "Test & Iterate",
-    description: "Track performance metrics, A/B test hooks, and refine creative strategy. Continuous optimization for maximum ROI."
-  }
-];
+const iconMap = {
+  ClipboardCheck,
+  Settings,
+  Mail,
+  BarChart3,
+  Calendar,
+} as const;
 
 export const HowItWorks = () => {
   const prefersReducedMotion = useReducedMotion();
+  const { t, lang } = useLanguage();
+  const [steps, setSteps] = useState<HowItWorksStep[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchSteps = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const result = await apiService.getHowItWorks(lang);
+        if (!cancelled) {
+          setSteps(result.steps || []);
+        }
+      } catch (e) {
+        if (!cancelled) {
+          setError(e instanceof Error ? e.message : 'Failed to load');
+          setSteps([]);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchSteps();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [lang]);
+
+  const fallbackStepLabelPrefix = lang === 'de' ? 'Schritt' : 'Step';
+
   return (
     <motion.section 
       id="how-it-works"
@@ -52,23 +73,35 @@ export const HowItWorks = () => {
             whileHover={{ scale: 1.05 }}
           >
             <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 opacity-30"></span>
-            <span className="relative z-10">Our UGC Process</span>
+            <span className="relative z-10">{t("how.badge")}</span>
           </motion.span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 text-foreground dark:text-white leading-tight tracking-tight">
-            How We <span className="relative inline-block">
-              <span className="bg-gradient-to-r from-[hsl(var(--brand-green))] via-[hsl(var(--gold))] to-[hsl(var(--brand-green))] bg-clip-text text-transparent bg-[length:200%_100%]">Create UGC</span>
+            {t("how.title.pre")} <span className="relative inline-block">
+              <span className="bg-gradient-to-r from-[hsl(var(--brand-green))] via-[hsl(var(--gold))] to-[hsl(var(--brand-green))] bg-clip-text text-transparent bg-[length:200%_100%]">{t("how.title.highlight")}</span>
               <span className="absolute -bottom-1 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[hsl(var(--brand-green))]/40 to-transparent"></span>
             </span>
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-3xl leading-relaxed dark:text-white/90">
-            From brief to final video in 5–7 days. Data-driven hooks, authentic creators, and platform-optimized editing.
+            {t("how.subtitle")}
           </p>
         </motion.div>
 
         <div className="max-w-5xl mx-auto">
-          {steps.map((step, index) => (
+          {loading ? (
+            <div className="text-center text-muted-foreground">Loading...</div>
+          ) : error ? (
+            <div className="text-center text-red-500">{error}</div>
+          ) : (
+            steps.map((step, index) => {
+              const Icon =
+                (step.icon && (iconMap as Record<string, typeof Calendar>)[step.icon]) ||
+                Calendar;
+              const stepLabel =
+                step.stepLabel || `${fallbackStepLabelPrefix} ${step.stepNumber}`;
+
+              return (
             <motion.div 
-              key={index}
+              key={`${step.lang}-${step.stepNumber}`}
               className="relative mb-12 sm:mb-16 last:mb-0"
               initial={{ opacity: 0, x: prefersReducedMotion ? 0 : (index % 2 === 0 ? -16 : 16), rotateY: 0 }}
               whileInView={{ opacity: 1, x: 0, rotateY: 0 }}
@@ -82,9 +115,9 @@ export const HowItWorks = () => {
                   transition={{ duration: 0.45, ease: "easeInOut" }}
                 >
                   <div className="absolute inset-0 rounded-full bg-[hsl(var(--brand-green))]/10 blur-md group-hover:blur-lg transition-all duration-500" />
-                  <step.icon className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 text-white relative z-10" />
+                  <Icon className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 text-white relative z-10" />
                   <div className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 w-7 h-7 sm:w-8 sm:h-8 bg-white dark:bg-[hsl(222,12%,15%)] text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))] rounded-full flex items-center justify-center text-xs sm:text-sm font-bold border-2 border-[hsl(var(--brand-green))]/30">
-                    {index + 1}
+                    {step.stepNumber}
                   </div>
                 </motion.div>
                 
@@ -107,7 +140,7 @@ export const HowItWorks = () => {
                 >
                   <div className="pointer-events-none absolute inset-0 rounded-xl sm:rounded-2xl bg-gradient-to-br from-[hsl(var(--brand-green))]/5 dark:from-[hsl(var(--brand-green))]/10 via-[hsl(var(--gold))]/5 dark:via-[hsl(var(--gold))]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <p className="text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))] font-semibold text-sm uppercase tracking-wider mb-3 inline-block px-3 py-1 bg-card dark:bg-[hsl(222,12%,15%)]/50 rounded-full">
-                    {step.step}
+                    {stepLabel}
                   </p>
                   <h3 className="text-xl sm:text-2xl md:text-3xl font-bold mb-3 sm:mb-4 text-foreground dark:text-white transition-colors duration-300">
                     {step.title}
@@ -122,7 +155,9 @@ export const HowItWorks = () => {
               </div>
               
             </motion.div>
-          ))}
+              );
+            })
+          )}
           <motion.div 
             className="mt-8 sm:mt-12 flex justify-center"
             initial={{ opacity: 0, y: prefersReducedMotion ? 0 : 12 }}
@@ -131,7 +166,7 @@ export const HowItWorks = () => {
             transition={{ duration: prefersReducedMotion ? 0.3 : 0.5 }}
           >
             <a href="#pricing" className="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] text-white hover:opacity-90 hover:scale-105 transition-all duration-300 font-semibold shadow-md">
-              View UGC Packages
+              {t("how.cta.packages")}
             </a>
           </motion.div>
         </div>

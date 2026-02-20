@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { motion, useScroll, useTransform, useSpring, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { ArrowRight, Calendar, Sparkles, Mail, Inbox, Award } from "lucide-react";
+import { useLanguage } from "@/components/LanguageProvider";
+import { apiService, type HeroData } from "@/services/api";
 
-export const Hero = () => {
+const HeroContent = ({ heroData }: { heroData: HeroData }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.3 });
   
@@ -43,15 +45,15 @@ export const Hero = () => {
             }}
           >
             <div className="inline-block mb-3 sm:mb-4 md:mb-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] text-white rounded-full text-xs sm:text-sm font-semibold shadow-lg">
-              High-Impact UGC for Brands
+              {heroData.tagline}
             </div>
             
             <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-extrabold mb-4 sm:mb-5 md:mb-6 leading-[1.15] sm:leading-[1.12] md:leading-[1.1] tracking-tight text-foreground">
-              UGC that <span className="bg-gradient-to-r from-[hsl(var(--brand-green))] via-[hsl(var(--gold))] to-[hsl(var(--brand-green))] bg-clip-text text-transparent animate-gradient">Converts</span>
+              {heroData.title}
             </h1>
             
             <p className="text-base sm:text-lg md:text-xl lg:text-xl text-muted-foreground mb-6 sm:mb-7 md:mb-8 leading-relaxed max-w-xl font-normal dark:text-white/90">
-              We script, cast, shoot, and edit user‑generated content that makes your product the star—optimized for TikTok, Reels, and Shorts. Fast turnaround, data‑driven hooks, usage rights included.
+              {heroData.subtitle}
             </p>
             
             <motion.div
@@ -65,7 +67,7 @@ export const Hero = () => {
                   size="lg"
                   onClick={() => window.location.href = '/book-meeting'}
                   className="bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] text-white hover:opacity-90 px-8 py-4 rounded-lg font-semibold transition-all relative overflow-hidden group shadow-lg hover:shadow-xl border-0"
-                  aria-label="Get a free UGC strategy call"
+                  aria-label={heroData.ctaPrimary}
                 >
                   <motion.span 
                     className="absolute inset-0 bg-gradient-to-r from-transparent via-white/25 to-transparent"
@@ -75,8 +77,8 @@ export const Hero = () => {
                   />
                   <span className="flex items-center gap-2 relative z-10">
                     <Mail className="w-5 h-5" aria-hidden="true" />
-                    <span className="hidden sm:inline">Get a UGC Quote</span>
-                    <span className="sm:hidden">Get Quote</span>
+                    <span className="hidden sm:inline">{heroData.ctaPrimary}</span>
+                    <span className="sm:hidden">{heroData.ctaPrimary}</span>
                     <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </span>
                 </Button>
@@ -101,7 +103,7 @@ export const Hero = () => {
                 >
                   <Sparkles className="w-3 h-3 sm:w-4 sm:h-4 text-gold" aria-hidden="true" />
                 </motion.div>
-                <span className="font-medium">Free content strategy call + hook ideas included</span>
+                <span className="font-medium">{heroData.urgency}</span>
               </motion.div>
             </motion.div>
           </motion.div>
@@ -135,7 +137,7 @@ export const Hero = () => {
               >
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-50"></div>
                 <Award className="w-3 h-3 sm:w-4 sm:h-4 relative z-10" aria-hidden="true" />
-                <span className="text-[10px] sm:text-xs font-bold whitespace-nowrap relative z-10">500+ Clients</span>
+                <span className="text-[10px] sm:text-xs font-bold whitespace-nowrap relative z-10">{heroData.stats?.clients} Clients</span>
               </motion.div>
             </motion.div>
             
@@ -150,8 +152,8 @@ export const Hero = () => {
               {/* Hero Image - Optimized Size */}
               <div className="relative w-full h-[320px] sm:h-[380px] md:h-[420px] lg:h-[480px] rounded-2xl overflow-hidden bg-gradient-to-br from-emerald-600 to-teal-700 shadow-2xl">
                 <img
-                  src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?q=80&w=1920&auto=format&fit=crop"
-                  alt="Creator filming UGC content"
+                  src={heroData.image}
+                  alt={heroData.title}
                   className="w-full h-full object-cover transition-transform duration-700 hover:scale-105"
                   loading="eager"
                   onError={(e) => {
@@ -180,8 +182,8 @@ export const Hero = () => {
                   >
                     <motion.div animate={{ y: [-3, 3, -3] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}>
                       <Mail className="w-4 h-4 sm:w-5 sm:h-5 mx-auto mb-1 text-[hsl(var(--brand-blue))]" />
-                      <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-foreground">200+</div>
-                      <div className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground font-medium">Brands Served</div>
+                      <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-foreground">{heroData.stats?.clients}</div>
+                      <div className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground font-medium">Clients</div>
                     </motion.div>
                   </motion.div>
                   
@@ -194,8 +196,8 @@ export const Hero = () => {
                   >
                     <motion.div animate={{ y: [-3, 3, -3] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.3 }}>
                       <Inbox className="w-4 h-4 sm:w-5 sm:h-5 mx-auto mb-1 text-[hsl(var(--brand-blue))]" />
-                      <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-foreground">2,500+</div>
-                      <div className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground font-medium">Videos Delivered</div>
+                      <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-foreground">{heroData.stats?.costSaved}</div>
+                      <div className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground font-medium">Cost Saved</div>
                     </motion.div>
                   </motion.div>
                   
@@ -208,8 +210,8 @@ export const Hero = () => {
                   >
                     <motion.div animate={{ y: [-3, 3, -3] }} transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}>
                       <Award className="w-4 h-4 sm:w-5 sm:h-5 mx-auto mb-1 text-[hsl(var(--brand-blue))]" />
-                      <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-foreground">+35%</div>
-                      <div className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground font-medium">Avg CTR Uplift</div>
+                      <div className="text-base sm:text-lg md:text-xl lg:text-2xl font-bold text-foreground">{heroData.stats?.rating}</div>
+                      <div className="text-[9px] sm:text-[10px] md:text-xs text-muted-foreground font-medium">Rating</div>
                     </motion.div>
                   </motion.div>
                 </div>
@@ -224,9 +226,9 @@ export const Hero = () => {
               aria-hidden="true"
             />
             <motion.div 
-              className="absolute -bottom-3 -left-3 sm:-bottom-4 sm:-left-4 w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-[hsl(var(--brand-blue))]/10 rounded-full blur-3xl"
-              animate={{ scale: [1, 1.4, 1], opacity: [0.1, 0.3, 0.1] }}
-              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+              className="absolute -bottom-4 -left-4 sm:-bottom-6 sm:-left-6 w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 bg-[hsl(var(--brand-green))]/20 rounded-full blur-3xl"
+              animate={{ scale: [1.2, 1, 1.2], opacity: [0.3, 0.1, 0.3] }}
+              transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
               aria-hidden="true"
             />
             <motion.div 
@@ -240,4 +242,58 @@ export const Hero = () => {
       </div>
     </motion.section>
   );
+};
+
+export const Hero = () => {
+  const { lang } = useLanguage();
+  const [heroData, setHeroData] = useState<HeroData | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch hero data from API
+  useEffect(() => {
+    const fetchHero = async () => {
+      try {
+        setLoading(true);
+        const data = await apiService.getHero(lang);
+        setHeroData(data);
+      } catch (err) {
+        console.error('Failed to fetch hero data:', err);
+        // No fallback - show error state
+        setHeroData(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHero();
+  }, [lang]);
+
+  // Show loading state
+  if (loading) {
+    return (
+      <section className="relative min-h-screen flex items-center bg-[image:var(--gradient-light)] dark:bg-[image:var(--gradient-dark)] text-foreground overflow-hidden pt-16 sm:pt-20 md:pt-0">
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-4 py-8 sm:py-12 md:py-16 lg:py-20 relative z-10">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[hsl(var(--brand-green))] mx-auto"></div>
+            <p className="mt-4 text-muted-foreground">Loading...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Show error state
+  if (!heroData) {
+    return (
+      <section className="relative min-h-screen flex items-center bg-[image:var(--gradient-light)] dark:bg-[image:var(--gradient-dark)] text-foreground overflow-hidden pt-16 sm:pt-20 md:pt-0">
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-4 py-8 sm:py-12 md:py-16 lg:py-20 relative z-10">
+          <div className="text-center">
+            <p className="text-red-500">Failed to load hero content</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  return <HeroContent heroData={heroData} />;
 };

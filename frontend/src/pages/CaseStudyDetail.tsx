@@ -2,25 +2,96 @@ import { motion } from "framer-motion";
 import { ArrowLeft, CheckCircle2, TrendingUp, Quote } from "lucide-react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
-import { caseStudies } from "@/components/CaseStudies";
+import { useEffect, useMemo, useState } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
+import { apiService, type CaseStudyItem } from "@/services/api";
 
 const CaseStudyDetail = () => {
   const navigate = useNavigate();
   const { id } = useParams();
-  
-  const caseStudy = caseStudies.find(cs => cs.id === Number(id));
+  const { t, lang } = useLanguage();
+  const caseStudyId = useMemo(() => {
+    const parsed = parseInt(id || '', 10);
+    return Number.isFinite(parsed) ? parsed : null;
+  }, [id]);
 
-  if (!caseStudy) {
+  const [caseStudy, setCaseStudy] = useState<CaseStudyItem | null>(null);
+  const [relatedCaseStudies, setRelatedCaseStudies] = useState<CaseStudyItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchData = async () => {
+      if (caseStudyId === null) {
+        setCaseStudy(null);
+        setRelatedCaseStudies([]);
+        setLoading(false);
+        setError('Invalid case study ID');
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+
+        const [detailRes, listRes] = await Promise.all([
+          apiService.getCaseStudyById(caseStudyId, lang),
+          apiService.getCaseStudies(lang),
+        ]);
+
+        if (!cancelled) {
+          setCaseStudy(detailRes.caseStudy);
+          setRelatedCaseStudies(
+            (listRes.caseStudies || []).filter(cs => cs.caseStudyId !== caseStudyId).slice(0, 2)
+          );
+        }
+      } catch (e) {
+        if (!cancelled) {
+          setError(e instanceof Error ? e.message : 'Failed to load');
+          setCaseStudy(null);
+          setRelatedCaseStudies([]);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchData();
+    return () => {
+      cancelled = true;
+    };
+  }, [caseStudyId, lang]);
+
+  if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Case Study Not Found</h1>
-          <button
-            onClick={() => navigate('/')}
-            className="text-gold hover:underline"
-          >
-            Return to Home
-          </button>
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-muted-foreground">Loading...</div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error || !caseStudy) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-4xl font-bold mb-4">{t("caseDetail.notFound")}</h1>
+            {error ? <p className="text-muted-foreground mb-4">{error}</p> : null}
+            <button
+              onClick={() => navigate('/')}
+              className="text-gold hover:underline"
+            >
+              {t("caseDetail.returnHome")}
+            </button>
+          </div>
         </div>
       </div>
     );
@@ -38,7 +109,7 @@ const CaseStudyDetail = () => {
             className="mb-6 flex items-center gap-2 bg-gold/10 text-gold hover:bg-gold/20 transition-colors font-medium group px-3 py-2 rounded-md"
           >
             <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-            Back to Home
+            {t("caseDetail.backHome")}
           </button>
 
           <div className="max-w-6xl mx-auto">
@@ -71,16 +142,16 @@ const CaseStudyDetail = () => {
               {/* Key Stats */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
                 <div className="bg-gold/5 border border-gold/20 rounded-lg p-5 text-center">
-                  <div className="text-3xl font-bold text-gold mb-1">{caseStudy.stats.costSaved}</div>
-                  <div className="text-xs text-muted-foreground">Annual Savings</div>
+                  <div className="text-3xl font-bold text-gold mb-1">{caseStudy.stats.mainResult}</div>
+                  <div className="text-xs text-muted-foreground">{t("case.label.result")}</div>
                 </div>
                 <div className="bg-gold/5 border border-gold/20 rounded-lg p-5 text-center">
-                  <div className="text-3xl font-bold text-gold mb-1">{caseStudy.stats.vaCount}</div>
-                  <div className="text-xs text-muted-foreground">Team Size</div>
+                  <div className="text-3xl font-bold text-gold mb-1">{caseStudy.stats.seoFocus}</div>
+                  <div className="text-xs text-muted-foreground">{t("case.label.focus")}</div>
                 </div>
                 <div className="bg-gold/5 border border-gold/20 rounded-lg p-5 text-center">
                   <div className="text-3xl font-bold text-gold mb-1">{caseStudy.stats.timeframe}</div>
-                  <div className="text-xs text-muted-foreground">Implementation</div>
+                  <div className="text-xs text-muted-foreground">{t("case.label.time")}</div>
                 </div>
               </div>
             </div>
@@ -88,7 +159,7 @@ const CaseStudyDetail = () => {
             {/* Challenge Section */}
             <div className="mb-10">
               <h2 className="text-xl sm:text-2xl font-bold mb-3 text-foreground">
-                The Challenge
+                {t("caseDetail.challenge")}
               </h2>
               <div className="bg-card border border-border rounded-lg p-5 sm:p-6">
                 <p className="text-base text-muted-foreground leading-relaxed">
@@ -100,7 +171,7 @@ const CaseStudyDetail = () => {
             {/* Solution Section */}
             <div className="mb-10">
               <h2 className="text-xl sm:text-2xl font-bold mb-3 text-foreground">
-                The Solution
+                {t("caseDetail.solution")}
               </h2>
               <div className="bg-card border border-border rounded-lg p-5 sm:p-6">
                 <p className="text-base text-muted-foreground leading-relaxed">
@@ -112,7 +183,7 @@ const CaseStudyDetail = () => {
             {/* Results Section */}
             <div className="mb-10">
               <h2 className="text-xl sm:text-2xl font-bold mb-4 text-foreground">
-                The Results
+                {t("caseDetail.results")}
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {caseStudy.results.map((result, index) => (
@@ -156,18 +227,18 @@ const CaseStudyDetail = () => {
               <div className="relative z-10">
                 <div className="inline-flex items-center gap-2 px-4 py-2 bg-gold/20 border border-gold/40 rounded-full mb-4">
                   <CheckCircle2 className="w-4 h-4 text-gold" />
-                  <span className="text-xs font-bold text-gold">Success Awaits</span>
+                  <span className="text-xs font-bold text-gold">{t("caseDetail.cta.badge")}</span>
                 </div>
                 
                 <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                  Ready to Achieve{" "}
+                  {t("caseDetail.cta.title.pre")}{" "}
                   <span className="bg-gradient-to-r from-[hsl(var(--brand-blue))] via-[hsl(var(--brand-blue))] to-[hsl(var(--brand-blue))] bg-clip-text text-transparent">
-                    Similar Results?
+                    {t("caseDetail.cta.title.highlight")}
                   </span>
                 </h3>
                 
                 <p className="text-base sm:text-lg text-muted-foreground mb-6 max-w-2xl leading-relaxed">
-                  Book a <span className="text-gold font-semibold">free 15-minute consultation</span> and discover how we can help you reduce costs and scale your operations.
+                  {t("caseDetail.cta.desc")}
                 </p>
                 
                 <div className="flex flex-col sm:flex-row items-start gap-3">
@@ -175,7 +246,7 @@ const CaseStudyDetail = () => {
                     onClick={() => navigate('/book-meeting')}
                     className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-gold to-yellow-600 hover:from-yellow-600 hover:to-gold text-black font-bold rounded-xl transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 flex items-center justify-center gap-2"
                   >
-                    <span>Book Free Consultation</span>
+                    <span>{t("caseDetail.cta.primary")}</span>
                     <ArrowLeft className="w-4 h-4 rotate-180" />
                   </button>
                   
@@ -183,22 +254,22 @@ const CaseStudyDetail = () => {
                     onClick={() => navigate('/')}
                     className="w-full sm:w-auto px-8 py-4 bg-gold/10 text-gold border-2 border-gold/30 hover:bg-gold/20 font-semibold rounded-xl transition-all duration-300"
                   >
-                    View All Case Studies
+                    {t("caseDetail.cta.secondary")}
                   </button>
                 </div>
                 
                 <div className="mt-6 flex flex-wrap items-center gap-4 sm:gap-6 text-sm text-muted-foreground">
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-gold" />
-                    <span>No Commitment</span>
+                    <span>{t("caseDetail.badge.noCommitment")}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-gold" />
-                    <span>15 Minutes</span>
+                    <span>{t("caseDetail.badge.minutes")}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <CheckCircle2 className="w-4 h-4 text-gold" />
-                    <span>100% Free</span>
+                    <span>{t("caseDetail.badge.free")}</span>
                   </div>
                 </div>
               </div>
@@ -206,12 +277,12 @@ const CaseStudyDetail = () => {
 
             {/* Related Case Studies */}
             <div className="mt-12 pt-10 border-t border-border">
-              <h3 className="text-xl sm:text-2xl font-bold mb-6 text-foreground">More Success Stories</h3>
+              <h3 className="text-xl sm:text-2xl font-bold mb-6 text-foreground">{t("caseDetail.related.title")}</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                {caseStudies.filter(cs => cs.id !== caseStudy.id).slice(0, 2).map((relatedStudy) => (
+                {relatedCaseStudies.map((relatedStudy) => (
                   <div
-                    key={relatedStudy.id}
-                    onClick={() => navigate(`/case-study/${relatedStudy.id}`)}
+                    key={`${relatedStudy.lang}-${relatedStudy.caseStudyId}`}
+                    onClick={() => navigate(`/case-study/${relatedStudy.caseStudyId}`)}
                     className="group cursor-pointer bg-card border border-border rounded-lg overflow-hidden hover:border-gold/50 hover:shadow-md transition-all duration-300"
                   >
                     <img
@@ -226,7 +297,7 @@ const CaseStudyDetail = () => {
                       </h4>
                       <p className="text-sm text-muted-foreground line-clamp-2">{relatedStudy.challenge}</p>
                       <div className="mt-2 text-sm text-gold font-semibold flex items-center gap-1">
-                        View Case Study
+                        {t("caseDetail.related.view")}
                         <ArrowLeft className="w-4 h-4 rotate-180" />
                       </div>
                     </div>

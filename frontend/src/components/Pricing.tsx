@@ -1,91 +1,148 @@
 import { Button } from "@/components/ui/button";
 import { Check, Star, Gift, Calendar, Sparkles, ArrowRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/components/LanguageProvider";
+import { apiService, type PricingPlan } from "@/services/api";
 
 // Constants
 const MAX_VA_COUNT = 10;
 const BULK_DISCOUNT_THRESHOLD = 3;
 const BULK_DISCOUNT_RATE = 0.03;
 
-// TypeScript Interface
-interface PricingPlan {
-  name: string;
-  deliverables: string;
-  price: number;
-  setupFee: number;
-  features: string[];
-  highlighted: boolean;
-  badge?: string;
-}
-
-const plans: PricingPlan[] = [
-  {
-    name: "Starter",
-    deliverables: "5 UGC videos",
-    price: 1295,
-    setupFee: 0,
-    features: [
-      "5 fully-edited UGC videos",
-      "1-2 vetted creators",
-      "3 hook variations per video",
-      "Captions + multi-platform cuts (9:16, 1:1, 4:5)",
-      "60-day usage rights for paid ads",
-      "5-7 day turnaround"
-    ],
-    highlighted: false
-  },
-  {
-    name: "Growth",
-    deliverables: "10 UGC videos",
-    price: 2395,
-    setupFee: 0,
-    badge: "Most Popular",
-    features: [
-      "10 fully-edited UGC videos",
-      "2-3 diverse creators",
-      "4 hook variations per video",
-      "A/B testing framework + performance insights",
-      "Unlimited usage rights for paid ads",
-      "Priority 3-5 day turnaround",
-      "Monthly strategy call"
-    ],
-    highlighted: true
-  },
-  {
-    name: "Scale",
-    deliverables: "20 UGC videos",
-    price: 4295,
-    setupFee: 0,
-    badge: "Best Value",
-    features: [
-      "20 fully-edited UGC videos",
-      "4-6 creators + backup casting",
-      "5+ hook variations per video",
-      "Creative testing matrix + ROAS tracking",
-      "Full commercial usage rights (perpetual)",
-      "Rush 48-72hr delivery available",
-      "Bi-weekly strategy + optimization calls",
-      "Dedicated account manager"
-    ],
-    highlighted: false
-  }
-];
-
 export const Pricing = () => {
   const [vaCount, setVaCount] = useState(1);
+  const [plans, setPlans] = useState<PricingPlan[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const { t, language } = useLanguage();
+  const planKeys = ["starter", "growth", "scale"] as const;
+
+  // Fetch pricing data from API
+  useEffect(() => {
+    const fetchPricing = async () => {
+      try {
+        setLoading(true);
+        const response = await apiService.getPricing(language);
+        setPlans(response.plans);
+        setError(null);
+      } catch (err) {
+        console.error('Failed to fetch pricing:', err);
+        setError('Failed to load pricing data');
+        // Fallback to hardcoded data if API fails
+        setPlans([
+          {
+            planKey: "starter",
+            name: "Starter",
+            hours: "5 UGC videos",
+            price: 1295,
+            setupFee: 0,
+            features: [
+              "5 fully-edited UGC videos",
+              "1-2 vetted creators",
+              "3 hook variations per video",
+              "Captions + multi-platform cuts (9:16, 1:1, 4:5)",
+              "60-day usage rights for paid ads",
+              "5-7 day turnaround"
+            ],
+            highlighted: false
+          },
+          {
+            planKey: "growth",
+            name: "Growth",
+            hours: "10 UGC videos",
+            price: 2395,
+            setupFee: 0,
+            badge: "Most Popular",
+            features: [
+              "10 fully-edited UGC videos",
+              "2-3 diverse creators",
+              "4 hook variations per video",
+              "A/B testing framework + performance insights",
+              "Unlimited usage rights for paid ads",
+              "Priority 3-5 day turnaround",
+              "Monthly strategy call"
+            ],
+            highlighted: true
+          },
+          {
+            planKey: "scale",
+            name: "Scale",
+            hours: "20 UGC videos",
+            price: 4295,
+            setupFee: 0,
+            badge: "Best Value",
+            features: [
+              "20 fully-edited UGC videos",
+              "4-6 creators + backup casting",
+              "5+ hook variations per video",
+              "Creative testing matrix + ROAS tracking",
+              "Full commercial usage rights (perpetual)",
+              "Rush 48-72hr delivery available",
+              "Bi-weekly strategy + optimization calls",
+              "Dedicated account manager"
+            ],
+            highlighted: false
+          }
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPricing();
+  }, [language]);
+
+  const getPlanFeatures = (planKey: (typeof planKeys)[number]) => {
+    const features: string[] = [];
+    for (let i = 0; i < 12; i++) {
+      const key = `pricing.plans.${planKey}.features.${i}`;
+      const value = t(key);
+      if (value === key) break;
+      features.push(value);
+    }
+    return features;
+  };
   
   const calculateDiscount = (count: number) => {
     return count >= BULK_DISCOUNT_THRESHOLD ? BULK_DISCOUNT_RATE : 0;
   };
   
   const discount = calculateDiscount(vaCount);
-  const totalPrice = plans.reduce((sum, plan) => sum + plan.price, 0) * vaCount;
+  const totalPrice = plans.length > 0 ? plans.reduce((sum, plan) => sum + plan.price, 0) * vaCount : 0;
   const savings = discount > 0 ? Math.round(totalPrice * discount) : 0;
   
   // Calculate average price per VA per hour
   const avgHoursPerWeek = 0; // not used in UGC context
-  const avgPricePerVA = plans[1].price;
+  const avgPricePerVA = plans.length > 1 ? plans[1].price : 0;
+
+  // Show loading state
+  if (loading) {
+    return (
+      <section className="relative py-8 sm:py-12 md:py-16 lg:py-20 bg-background text-foreground z-10">
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[hsl(var(--brand-green))] mx-auto"></div>
+            <p className="mt-4 text-muted-foreground">Loading pricing...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <section className="relative py-8 sm:py-12 md:py-16 lg:py-20 bg-background text-foreground z-10">
+        <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+          <div className="text-center">
+            <p className="text-red-500">{error}</p>
+            <p className="mt-2 text-muted-foreground">Showing default pricing...</p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <motion.section 
@@ -112,13 +169,15 @@ export const Pricing = () => {
             whileHover={{ scale: 1.05 }}
           >
             <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0 opacity-50"></span>
-            <span className="relative z-10">Transparent Pricing</span>
+            <span className="relative z-10">{t("pricing.badge")}</span>
           </motion.span>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4 text-foreground leading-tight tracking-tight">
-            UGC Content <span className="bg-gradient-to-r from-[hsl(var(--brand-green))] via-[hsl(var(--gold))] to-[hsl(var(--brand-green))] bg-clip-text text-transparent">Packages</span>
+            {t("pricing.title.pre")}
+            {" "}
+            <span className="bg-gradient-to-r from-[hsl(var(--brand-green))] via-[hsl(var(--gold))] to-[hsl(var(--brand-green))] bg-clip-text text-transparent">{t("pricing.title.highlight")}</span>
           </h2>
           <p className="text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl leading-relaxed">
-            Production-ready UGC at scale. All packages include scripting, creator casting, filming, editing, captions, and commercial usage rights.
+            {t("pricing.subtitle")}
           </p>
         </motion.div>
 
@@ -147,10 +206,10 @@ export const Pricing = () => {
                   </motion.div>
                   <div className="flex-1">
                     <h3 className="text-2xl sm:text-3xl font-bold mb-2 text-foreground dark:text-white">
-                      Free UGC Strategy Call
+                      {t("pricing.free.header")}
                     </h3>
                     <p className="text-sm sm:text-base text-muted-foreground dark:text-white/80 leading-relaxed">
-                      Get expert advice on UGC strategy, creator casting, and platform optimization before choosing a package.
+                      {t("pricing.free.desc")}
                     </p>
                   </div>
                 </div>
@@ -159,7 +218,7 @@ export const Pricing = () => {
                   className="flex-shrink-0 bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] text-white hover:opacity-90 transition-all duration-300 hover:scale-105 hover:shadow-xl font-bold shadow-lg px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg border-0 rounded-xl"
                   onClick={() => window.location.href = '/book-meeting'}
                 >
-                  Book Free Call →
+                  {t("pricing.free.btn")}
                 </Button>
               </div>
             </div>
@@ -204,12 +263,8 @@ export const Pricing = () => {
                     </motion.div>
                   </motion.div>
                   <div className="flex-1">
-                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-foreground dark:text-white">
-                      Sample Video Included
-                    </h3>
-                    <p className="text-sm sm:text-base md:text-lg text-muted-foreground dark:text-white/80 leading-relaxed">
-                      New clients get <span className="font-bold text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))] px-2 py-0.5 bg-[hsl(var(--brand-green))]/10 dark:bg-[hsl(var(--gold))]/20 rounded-md">1 free sample video</span> to test our quality before committing.
-                    </p>
+                    <h3 className="text-2xl sm:text-3xl md:text-4xl font-bold mb-2 text-foreground dark:text-white" dangerouslySetInnerHTML={{ __html: t("pricing.sample.title") }} />
+                    <p className="text-sm sm:text-base md:text-lg text-muted-foreground dark:text-white/80 leading-relaxed" dangerouslySetInnerHTML={{ __html: t("pricing.sample.desc") }} />
                   </div>
                 </div>
                 <Button 
@@ -217,7 +272,7 @@ export const Pricing = () => {
                   className="flex-shrink-0 bg-gradient-to-r from-[hsl(var(--gold))] to-[hsl(var(--brand-green))] text-white hover:opacity-90 transition-all duration-300 hover:scale-105 hover:shadow-2xl font-bold shadow-xl px-8 sm:px-10 py-4 sm:py-5 text-base sm:text-lg border-0 rounded-xl"
                   onClick={() => window.location.href = '/book-meeting'}
                 >
-                  Get Sample Video →
+                  {t("pricing.sample.btn")}
                 </Button>
               </div>
             </div>
@@ -225,7 +280,13 @@ export const Pricing = () => {
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 md:gap-10 max-w-7xl mx-auto">
-          {plans.map((plan, index) => (
+          {plans.map((plan, index) => {
+            const pk = plan.planKey || planKeys[index] || "starter";
+            const planName = t(`pricing.plans.${pk}.name`) || plan.name;
+            const planDeliverables = t(`pricing.plans.${pk}.deliverables`) || plan.hours;
+            const badgeText = plan.badge ? (t(`pricing.plans.${pk}.badge`) || plan.badge) : undefined;
+            const features = getPlanFeatures(pk).length ? getPlanFeatures(pk) : plan.features;
+            return (
             <motion.div 
               key={index}
               className="relative"
@@ -284,7 +345,7 @@ export const Pricing = () => {
                   style={plan.highlighted ? { backgroundSize: '200% 100%' } : {}}
                 />
               
-                {plan.badge && (
+                {badgeText && (
                   <motion.div 
                     className="absolute -top-5 right-6 px-5 py-2 rounded-full text-xs font-bold shadow-2xl flex items-center gap-2 bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] text-white border-2 border-white/20 relative overflow-hidden"
                     initial={{ y: -15, opacity: 0, scale: 0.8 }}
@@ -298,7 +359,7 @@ export const Pricing = () => {
                     >
                       <Star className="w-4 h-4 fill-current drop-shadow-lg" />
                     </motion.div>
-                    <span className="drop-shadow-sm">{plan.badge}</span>
+                    <span className="drop-shadow-sm">{badgeText}</span>
                   </motion.div>
                 )}
               
@@ -312,14 +373,14 @@ export const Pricing = () => {
                     transition={{ duration: 0.6, delay: 0.2, type: "spring", stiffness: 400 }}
                     whileHover={{ scale: 1.05 }}
                   >
-                    {plan.name}
+                    {planName}
                   </motion.h3>
                   <div className="flex items-center gap-2 flex-wrap">
                     <p className="text-sm font-semibold text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))]">
-                      {plan.deliverables}
+                      {planDeliverables}
                     </p>
                     <span className="px-3 py-1 text-xs font-medium rounded-full bg-gradient-to-r from-[hsl(var(--brand-green))]/10 to-[hsl(var(--gold))]/10 dark:from-[hsl(var(--brand-green))]/20 dark:to-[hsl(var(--gold))]/20 text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))] border border-[hsl(var(--brand-green))]/20">
-                      Get UGC
+                      {t("pricing.plan.badge")}
                     </span>
                   </div>
                 </div>
@@ -338,9 +399,7 @@ export const Pricing = () => {
                     >
                       {plan.price}
                     </motion.span>
-                    <span className="text-lg font-medium text-muted-foreground">
-                      /month
-                    </span>
+                    <span className="text-lg font-medium text-muted-foreground">{t("pricing.price.per")}</span>
                   </div>
                   {plan.setupFee > 0 ? (
                     <p className="text-sm mt-3 text-muted-foreground">
@@ -354,14 +413,14 @@ export const Pricing = () => {
                       transition={{ delay: 0.6 }}
                     >
                       <Check className="w-4 h-4" />
-                      No setup fee required
+                      {t("pricing.setup.none")}
                     </motion.p>
                   )}
                 </div>
 
                 {/* Features */}
                 <ul className="space-y-4 mb-8 relative z-10">
-                  {plan.features.map((feature, fIndex) => (
+                  {features.map((feature, fIndex) => (
                     <motion.li 
                       key={fIndex} 
                       className="flex items-start gap-2.5"
@@ -407,14 +466,15 @@ export const Pricing = () => {
                       }}
                     />
                     <span className="relative flex items-center justify-center gap-2">
-                      Get Started
+                      {t("pricing.cta.getStarted")}
                       <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
                     </span>
                   </Button>
                 </motion.div>
               </div>
             </motion.div>
-          ))}
+            );
+          })}
         </div>
 
         <motion.p 
@@ -424,7 +484,7 @@ export const Pricing = () => {
     viewport={{ once: true }}
     transition={{ duration: 0.6, delay: 0.5 }}
   >
-    All plans are billed monthly with no long-term contracts. Upgrade or downgrade anytime. Typical turnaround 24–72h depending on volume.
+    {t("pricing.footer.note")}
         </motion.p>
       </div>
     </motion.section>

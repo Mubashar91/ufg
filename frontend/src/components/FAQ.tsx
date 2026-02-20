@@ -6,39 +6,46 @@ import {
 } from "@/components/ui/accordion";
 import { motion } from "framer-motion";
 import { HelpCircle, Shield, Zap } from "lucide-react";
-
-const faqs = [
-  {
-    question: "What platforms do you optimize UGC for?",
-    answer: "TikTok, Instagram Reels, YouTube Shorts, Facebook, and Pinterest. We deliver multiple aspect ratios (9:16, 1:1, 4:5) and formats optimized for each platform's algorithm."
-  },
-  {
-    question: "How do you find and cast creators?",
-    answer: "We maintain a vetted network of 500+ creators across demographics. We match creators to your brand based on audience, tone, and authenticity—ensuring genuine, on-brand content."
-  },
-  {
-    question: "Do I get usage rights for the content?",
-    answer: "Yes. All packages include full commercial usage rights for paid ads, organic posts, and website use. No hidden fees or licensing restrictions."
-  },
-  {
-    question: "What's the typical turnaround time?",
-    answer: "Standard: 5–7 days from brief to final video. Rush delivery available in 48–72 hours. We provide drafts for feedback before final delivery."
-  },
-  {
-    question: "Can you create UGC for multiple products?",
-    answer: "Absolutely. We handle single SKUs, product bundles, and full catalog shoots. Volume discounts available for brands needing 10+ videos per month."
-  },
-  {
-    question: "How do you ensure content performs well?",
-    answer: "Data-driven hooks tested across 1000+ campaigns, platform-specific editing (captions, pacing, CTAs), and A/B testing frameworks. We track CTR, watch time, and conversion metrics."
-  },
-  {
-    question: "What if I don't like the content?",
-    answer: "Unlimited revisions on scripts and up to 2 rounds of edits on final videos. If a creator isn't the right fit, we'll recast at no extra cost. 100% satisfaction guaranteed."
-  }
-];
+import { useEffect, useState } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
+import { apiService, type FaqItem } from "@/services/api";
 
 export const FAQ = () => {
+  const { t, lang } = useLanguage();
+  const [faqs, setFaqs] = useState<FaqItem[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    const fetchFaqs = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        const result = await apiService.getFAQs(lang);
+        if (!cancelled) {
+          setFaqs((result.faqs || []).slice().sort((a, b) => a.order - b.order));
+        }
+      } catch (e) {
+        if (!cancelled) {
+          setError(e instanceof Error ? e.message : 'Failed to load');
+          setFaqs([]);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    fetchFaqs();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [lang]);
+
   return (
     <motion.section 
       id="faq"
@@ -71,17 +78,17 @@ export const FAQ = () => {
             >
               <div className="px-4 py-2 bg-gradient-to-br from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] backdrop-blur-sm rounded-full text-sm font-semibold text-white flex items-center gap-2 border border-white/20">
                 <HelpCircle className="w-4 h-4" />
-                <span>UGC Creation FAQs</span>
+                <span>{t("faq.badge")}</span>
               </div>
             </motion.div>
 
             {/* Heading - Centered */}
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-5 md:mb-6 text-foreground dark:text-white px-2" style={{ textAlign: 'center' }}>
-              Frequently Asked <span className="bg-gradient-to-r from-[hsl(var(--brand-green))] via-[hsl(var(--gold))] to-[hsl(var(--brand-green))] bg-clip-text text-transparent">Questions</span>
+              {t("faq.title.pre")} <span className="bg-gradient-to-r from-[hsl(var(--brand-green))] via-[hsl(var(--gold))] to-[hsl(var(--brand-green))] bg-clip-text text-transparent">{t("faq.title.highlight")}</span>
             </h2>
             {/* Description - Centered */}
             <p className="text-base sm:text-lg md:text-xl text-muted-foreground dark:text-card-foreground/80 max-w-2xl leading-relaxed px-2 text-center mx-auto">
-              Everything you need to know about our UGC services—platforms, creators, usage rights, turnaround, and performance.
+              {t("faq.subtitle")}
             </p>
           </motion.div>
 
@@ -92,16 +99,21 @@ export const FAQ = () => {
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
             <Accordion type="single" collapsible className="space-y-3 sm:space-y-4">
-              {faqs.map((faq, index) => (
+              {loading ? (
+                <div className="text-center text-muted-foreground">Loading...</div>
+              ) : error ? (
+                <div className="text-center text-red-500">{error}</div>
+              ) : (
+              faqs.map((faq, index) => (
                 <motion.div
-                  key={index}
+                  key={`${faq.lang}-${faq.order}`}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1, duration: 0.5 }}
                 >
                   <AccordionItem 
-                    value={`item-${index}`}
+                    value={`item-${faq.order}`}
                     className="group bg-card/60 backdrop-blur-sm border border-[hsl(215,32%,91%)] dark:border-border/40 rounded-xl sm:rounded-2xl px-4 sm:px-6 md:px-8 hover:border-[hsl(var(--brand-green))]/60 dark:hover:border-[hsl(var(--gold))]/60 hover:shadow-[0_10px_30px_-5px_hsl(142_70%_45%/0.2)] dark:hover:shadow-[0_10px_30px_-5px_rgba(34,197,94,0.15)] transition-all duration-300 data-[state=open]:border-[hsl(var(--brand-green))]/70 dark:data-[state=open]:border-[hsl(var(--gold))]/70 data-[state=open]:shadow-[0_15px_40px_-5px_hsl(142_70%_45%/0.25),0_0_20px_hsl(142_70%_45%/0.1)] dark:data-[state=open]:shadow-[0_15px_40px_-5px_rgba(34,197,94,0.2),0_0_20px_rgba(34,197,94,0.08)]"
                   >
                     <AccordionTrigger className="text-left text-base sm:text-lg md:text-xl font-semibold text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))] py-5 sm:py-6 hover:no-underline group-hover:text-[hsl(var(--brand-green))] dark:group-hover:text-[hsl(var(--gold))] transition-colors">
@@ -117,7 +129,8 @@ export const FAQ = () => {
                     </AccordionContent>
                   </AccordionItem>
                 </motion.div>
-              ))}
+              ))
+              )}
             </Accordion>
           </motion.div>
 
@@ -171,23 +184,23 @@ export const FAQ = () => {
             transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
           >
             <p className="text-base sm:text-lg md:text-xl font-semibold text-foreground dark:text-white mb-2">
-              Still have questions?
+              {t("faq.still")}
             </p>
             <p className="text-sm sm:text-base text-muted-foreground dark:text-card-foreground/80 mb-4 sm:mb-5">
-              Our team is here to help. Get in touch and we'll respond within 2 hours.
+              {t("faq.still.desc")}
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a 
                 href="#pricing" 
                 className="inline-flex items-center justify-center px-6 py-3 bg-gradient-to-r from-[hsl(var(--brand-green))] to-[hsl(var(--gold))] text-white font-semibold rounded-xl hover:opacity-90 transition-all duration-300 hover:scale-105 border-0"
               >
-                View UGC Packages
+                {t("faq.packages")}
               </a>
               <a 
                 href="#contact" 
                 className="inline-flex items-center justify-center px-6 py-3 bg-transparent border-2 border-[hsl(var(--brand-green))] text-[hsl(var(--brand-green))] dark:text-[hsl(var(--gold))] font-semibold rounded-xl hover:bg-[hsl(var(--brand-green))]/10 transition-all duration-300"
               >
-                Get a Quote
+                {t("faq.getQuote")}
               </a>
             </div>
           </motion.div>

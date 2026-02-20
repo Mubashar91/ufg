@@ -27,7 +27,6 @@ const Index = () => {
       <Blog />
       <CaseStudies />
       <FAQ />
-      
       <FinalCTA /> 
     </main>
   );
